@@ -651,6 +651,41 @@
     font-family: var(--serif);
     letter-spacing: 1px;
   }
+  .brands-emphasis {
+    margin-top: 56px;
+    padding: 36px 32px;
+    border-top: 1px solid var(--gold-deep);
+    border-bottom: 1px solid var(--gold-deep);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .brands-emphasis-num {
+    font-family: var(--serif);
+    font-size: clamp(40px, 5vw, 56px);
+    color: var(--gold);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .brands-emphasis-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: left;
+    line-height: 1.6;
+    max-width: 360px;
+  }
+  .brands-emphasis-text strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+  @media (max-width: 640px) {
+    .brands-emphasis { flex-direction: column; gap: 16px; padding: 28px 20px; }
+    .brands-emphasis-text { text-align: center; }
+  }
 
   /* ====== SYSTEM (6 cards) ====== */
   .system-grid {
@@ -875,8 +910,8 @@
   .income-summary em { color: var(--gold); font-weight: 400; }
   .income-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
     margin-top: 32px;
   }
   .income-card {
@@ -1905,6 +1940,13 @@
       </div>
     </div>
     <p class="brands-note">— and more.</p>
+    <div class="brands-emphasis">
+      <div class="brands-emphasis-num">+800</div>
+      <p class="brands-emphasis-text">
+        위 명단 외에도 <strong>800개 이상의 럭셔리 브랜드</strong>를<br />
+        실시간으로 소싱·공급하고 있습니다.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -2053,7 +2095,7 @@
         실제 수익은 <em>이렇게 만들어집니다</em>
       </h2>
       <p class="section-subtitle">
-        고객은 정가의 절반에 명품을 구매하고, 컨시어지는 판매가의 10%를 수익으로 가져갑니다. 단순하고 강력한 구조입니다.
+        고객은 정가의 절반에 명품을 구매하고, 컨시어지는 판매가의 12%를 수익으로 가져갑니다. 단순하고 강력한 구조입니다.
       </p>
     </div>
     <div class="income-example">
@@ -2073,35 +2115,46 @@
         <div class="income-arrow">→</div>
         <div class="income-step">
           <div class="income-step-label">컨시어지 수익</div>
-          <div class="income-step-value gold">500,000원</div>
-          <div class="income-step-sub">판매가 10%</div>
+          <div class="income-step-value gold">600,000원</div>
+          <div class="income-step-sub">판매가 12%</div>
         </div>
       </div>
       <p class="income-summary">
-        고객은 <em>절반 가격</em>에, 컨시어지는 <em>판매가의 10%</em>를 수익으로.
+        고객은 <em>절반 가격</em>에, 컨시어지는 <em>판매가의 12%</em>를 수익으로.
       </p>
     </div>
     <div class="income-grid">
       <div class="income-card">
         <div class="income-tag">METHOD 01</div>
-        <h3 class="income-title">수수료 판매<br /><span style="font-size:18px; color: var(--text-muted);">국내 재고 활용형</span></h3>
+        <h3 class="income-title">수수료 판매<br /><span style="font-size:16px; color: var(--text-muted);">국내·해외 재고 활용형</span></h3>
         <p class="income-summary-line">자본 부담 없이 즉시 시작 가능</p>
         <ul class="income-list">
           <li>국내에 이미 확보된 50억+ 규모의 재고를 판매</li>
-          <li>B2B 온라인몰 플랫폼에서 상품을 골라 공유·판매</li>
-          <li>판매 시점에 수수료 지급 — 사입 비용 부담 없음</li>
+          <li>B2B 플랫폼을 통해 해외 재고도 무자본 판매 가능</li>
+          <li>판매 시점에 수수료 지급 — 사입 비용 0원</li>
           <li>온라인 파트너 + 다른 공급사 재고 통합 활용</li>
         </ul>
       </div>
       <div class="income-card">
         <div class="income-tag">METHOD 02</div>
-        <h3 class="income-title">직접 사입 마진 판매<br /><span style="font-size:18px; color: var(--text-muted);">해외 재고 큐레이션형</span></h3>
+        <h3 class="income-title">직접 사입 마진 판매<br /><span style="font-size:16px; color: var(--text-muted);">해외 재고 큐레이션형</span></h3>
         <p class="income-summary-line">큐레이션과 마진의 자유도</p>
         <ul class="income-list">
           <li>이탈리아 부티크 상품을 직접 선택해 사입</li>
           <li>본인이 마진을 책정하여 판매</li>
           <li>본인 판매 + B2B 플랫폼 등재로 다른 셀러도 함께 판매</li>
           <li>안목 있는 컨시어지일수록 수익 폭이 커지는 구조</li>
+        </ul>
+      </div>
+      <div class="income-card">
+        <div class="income-tag">METHOD 03</div>
+        <h3 class="income-title">VIP 멤버십 판매<br /><span style="font-size:16px; color: var(--text-muted);">비아엘리떼 멤버십형</span></h3>
+        <p class="income-summary-line">단골 고객 충성도 + 반복 구매</p>
+        <ul class="income-list">
+          <li>나의 VIP 고객에게 비아엘리떼 멤버십 권한 부여</li>
+          <li>멤버십 회원은 최저가로 명품 구매 가능</li>
+          <li>구매 외에도 다양한 부가 서비스 제공</li>
+          <li>장기 충성 고객 확보 + 안정적 수익 흐름 구축</li>
         </ul>
       </div>
     </div>
@@ -2376,13 +2429,6 @@
     </div>
     <div class="faq-list">
       <div class="faq-item">
-        <div class="faq-q">비아엘리떼는 다단계인가요?</div>
-        <div class="faq-a">
-          아닙니다. 모든 컨시어지는 본사인 제이프리모인터내셔널과 직접 1:1로 계약을 맺으며, 컨시어지 사이에 상하 관계나 수수료 흐름이 일절 존재하지 않습니다.
-          모든 활동 컨시어지는 viaelite.kr에 공식 등재되며, 이 리스트에 없는 사람은 비아엘리떼와 무관합니다. 사칭이 불가능한 시스템 위에서 운영됩니다.
-        </div>
-      </div>
-      <div class="faq-item">
         <div class="faq-q">명품 영업 경험이 전혀 없어도 가능한가요?</div>
         <div class="faq-a">
           가능합니다. 비아엘리떼는 명품 영업이 처음인 분들도 성공할 수 있도록 체계적인 교육과 영업 자료를 제공합니다.
@@ -2547,18 +2593,49 @@
     });
   });
 
-  // Form submission
-  // ⚠️ 실제 운영 시: 아래 함수 안의 "TODO"를 본인의 폼 처리 방식으로 교체
+  // Form submission — Google Apps Script 백엔드 연동
+  // ⚠️ 아래 URL을 본인의 Apps Script 웹앱 URL로 교체하세요 (배포 후 발급받은 주소)
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_6CudsvNZUHfu2Gi8H7FNzwOxbAmxk_DZMxWaE96aGGjqecSJ2ifn9T4gV5S0K-EJ/exec';
+
   function submitForm(e) {
     e.preventDefault();
     const form = document.getElementById('applyForm');
     const success = document.getElementById('formSuccess');
-    // TODO: 여기를 실제 엔드포인트로 교체하세요 (Formspree, 자체 서버 등)
+    const submitBtn = form.querySelector('.form-submit');
+
     const data = Object.fromEntries(new FormData(form));
-    console.log('신청서 데이터:', data);
-    form.style.display = 'none';
-    success.classList.add('show');
-    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // 제출 버튼 비활성화
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = '제출 중...';
+    }
+
+    // text/plain으로 전송하면 CORS preflight 회피 가능
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+    })
+    .then(res => res.json())
+    .then(result => {
+      if (result.status === 'success') {
+        form.style.display = 'none';
+        success.classList.add('show');
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        throw new Error(result.message || '제출 실패');
+      }
+    })
+    .catch(err => {
+      console.error('Submit error:', err);
+      alert('신청 제출 중 오류가 발생했습니다.\n잠시 후 다시 시도하시거나, 카카오톡 채널로 문의해주세요.');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '신청서 제출하기';
+      }
+    });
+
     return false;
   }
 
