@@ -1,7 +1,9 @@
 {
   "rewrites": [
-    { "source": "/concierge", "destination": "https://concierge.viaelite.kr" },
-    { "source": "/concierge/:slug*", "destination": "https://concierge.viaelite.kr/:slug*" }
+    { "source": "/concierge", "destination": "/concierge/index.html" },
+    { "source": "/concierge/:slug", "destination": "/concierge/index.html" },
+    { "source": "/concierge-admin", "destination": "/concierge-admin/index.html" },
+    { "source": "/concierge-admin/", "destination": "/concierge-admin/index.html" }
   ],
   "headers": [
     {
@@ -12,7 +14,20 @@
       ]
     },
     {
+      "source": "/concierge-admin/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
       "source": "/images/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/concierge/images/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]

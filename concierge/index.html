@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비아엘리떼 공식 컨시어지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: #0a1814;
+    color: #e8e2d4;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 100px;
+    min-height: 100vh;
+  }
+
+  /* ========== HEADER ========== */
+  .header {
+    background: #060f0c;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(201, 181, 138, 0.12);
+  }
+  .header-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo-area { display: flex; align-items: center; gap: 12px; }
+  .logo-img { height: 36px; display: block; }
+  .logo-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 600; color: #fff;
+    letter-spacing: 0.08em;
+  }
+  .logo-kr {
+    font-size: 11px; color: #c9b58a;
+    letter-spacing: 0.25em; text-transform: uppercase;
+  }
+  .header-nav {
+    display: flex; gap: 32px;
+    font-size: 13px; color: rgba(232, 226, 212, 0.55);
+    letter-spacing: 0.05em;
+  }
+  .header-nav a { color: inherit; text-decoration: none; transition: color 0.2s; }
+  .header-nav a:hover, .header-nav a.active { color: #c9b58a; }
+
+  /* ========== HERO ========== */
+  .hero {
+    background: linear-gradient(180deg, #060f0c 0%, #0a1814 100%);
+    padding: 70px 40px 90px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+  .hero::before {
+    width: 400px; height: 400px;
+    background: #c9b58a;
+    top: -150px; left: -100px;
+  }
+  .hero::after {
+    width: 500px; height: 500px;
+    background: #1c3829;
+    bottom: -200px; right: -120px;
+  }
+  .hero-inner { position: relative; z-index: 2; }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 11px; color: #c9b58a; letter-spacing: 0.35em;
+    text-transform: uppercase; font-weight: 700;
+    margin-bottom: 22px;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 62px; font-weight: 600; color: #fff;
+    letter-spacing: 0.02em; margin-bottom: 12px;
+    line-height: 1.05;
+  }
+  .hero-title-kr {
+    font-size: 30px; font-weight: 400; color: #e8e2d4;
+    letter-spacing: 0.08em; margin-bottom: 32px;
+  }
+  .hero-divider {
+    width: 60px; height: 1px; background: #c9b58a;
+    margin: 0 auto 32px;
+  }
+  .hero-warning {
+    max-width: 720px; margin: 0 auto;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201, 181, 138, 0.35);
+    padding: 24px 32px; border-radius: 4px;
+    text-align: left;
+    backdrop-filter: blur(10px);
+  }
+  .hero-warning-title {
+    font-size: 12px; color: #c9b58a; letter-spacing: 0.2em;
+    font-weight: 700; margin-bottom: 10px; text-transform: uppercase;
+  }
+  .hero-warning-text {
+    font-size: 14px; color: rgba(232, 226, 212, 0.85); line-height: 1.75;
+  }
+  .hero-warning-text strong { color: #fff; font-weight: 600; }
+
+  /* ========== CONTAINER ========== */
+  .container {
+    max-width: 1200px; margin: -50px auto 0;
+    padding: 0 40px; position: relative; z-index: 5;
+  }
+
+  /* ========== TAB SWITCH ========== */
+  .tab-switch {
+    background: #15251e;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    gap: 6px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    margin-bottom: 36px;
+    border: 1px solid rgba(201, 181, 138, 0.15);
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 20px 24px;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 15px; font-weight: 600;
+    color: rgba(232, 226, 212, 0.55);
+    cursor: pointer;
+    transition: all 0.18s;
+    letter-spacing: 0.04em;
+  }
+  .tab-btn .tab-count {
+    display: inline-block; margin-left: 8px;
+    font-size: 12px; font-weight: 500;
+    color: rgba(232, 226, 212, 0.4);
+  }
+  .tab-btn.active {
+    background: linear-gradient(180deg, #c9b58a 0%, #a89366 100%);
+    color: #0a1814;
+  }
+  .tab-btn.active .tab-count { color: rgba(10, 24, 20, 0.6); }
+  .tab-btn:hover:not(.active) { color: #e8e2d4; }
+
+  /* ========== REGION FILTER ========== */
+  .filter-bar {
+    background: #15251e;
+    border-radius: 8px;
+    padding: 22px 26px;
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 18px;
+    border: 1px solid rgba(201, 181, 138, 0.1);
+    flex-wrap: wrap;
+  }
+  .filter-label {
+    font-size: 11px; color: #c9b58a;
+    letter-spacing: 0.22em; font-weight: 700; text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .region-chips { display: flex; gap: 7px; flex-wrap: wrap; flex: 1; }
+  .region-chip {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201, 181, 138, 0.15);
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 12px; font-weight: 600;
+    color: rgba(232, 226, 212, 0.7);
+    cursor: pointer;
+    transition: all 0.18s;
+    letter-spacing: 0.04em;
+  }
+  .region-chip:hover {
+    background: rgba(201, 181, 138, 0.08);
+    color: #e8e2d4;
+  }
+  .region-chip.active {
+    background: #c9b58a;
+    color: #0a1814;
+    border-color: #c9b58a;
+  }
+  .result-count {
+    font-size: 13px; color: rgba(232, 226, 212, 0.6);
+    font-weight: 500;
+  }
+  .result-count strong { color: #c9b58a; font-weight: 700; font-size: 15px; }
+
+  /* ========== LIST — 2열 그리드 ========== */
+  .list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .list-item {
+    background: linear-gradient(135deg, #15251e 0%, #0f1d17 100%);
+    border-radius: 12px;
+    padding: 24px 26px;
+    display: flex; align-items: center; gap: 22px;
+    border: 1px solid rgba(201, 181, 138, 0.12);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .list-item::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, transparent, #c9b58a, transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .list-item:hover {
+    border-color: rgba(201, 181, 138, 0.3);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    transform: translateY(-3px);
+  }
+  .list-item:hover::before { opacity: 1; }
+
+  /* 사진 */
+  .concierge-photo {
+    width: 120px; height: 155px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2a3d33 0%, #1a2620 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 46px; color: #c9b58a; font-weight: 500;
+    flex-shrink: 0;
+    border: 1px solid rgba(201, 181, 138, 0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  .concierge-photo img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .concierge-photo::after {
+    content: '';
+    position: absolute; inset: 8px;
+    border: 1px solid rgba(201, 181, 138, 0.15);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  /* 매장은 가로형 */
+  .store-item .concierge-photo {
+    width: 150px; height: 155px;
+    background: linear-gradient(135deg, #1c3829 0%, #0a1814 100%);
+    font-size: 54px;
+  }
+  .store-item .concierge-photo::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(201, 181, 138, 0.15), transparent 60%);
+  }
+  .store-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px;
+    background: rgba(201, 181, 138, 0.1);
+    border: 1px solid rgba(201, 181, 138, 0.3);
+    border-radius: 4px;
+    font-size: 10px; color: #c9b58a;
+    letter-spacing: 0.18em; font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .store-badge::before { content: '◆'; font-size: 8px; }
+
+  .concierge-info { flex: 1; min-width: 0; }
+  .concierge-cert {
+    font-size: 11px; color: #c9b58a;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .concierge-role {
+    display: inline-block;
+    font-size: 10px; color: #f5cf6f;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 800; margin-bottom: 6px;
+  }
+  .concierge-role.branch {
+    color: #ffd66b;
+  }
+  .concierge-name {
+    font-size: 22px; font-weight: 700; color: #fff;
+    letter-spacing: 0.02em; margin-bottom: 12px;
+    font-family: 'Pretendard', sans-serif;
+  }
+  .concierge-meta {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-bottom: 16px;
+  }
+  .concierge-meta-item {
+    display: flex; align-items: baseline; gap: 10px;
+    font-size: 12px; color: rgba(232, 226, 212, 0.7);
+  }
+  .concierge-meta-item .meta-label {
+    color: rgba(201, 181, 138, 0.6); font-size: 9px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    min-width: 50px; flex-shrink: 0;
+  }
+  .concierge-meta-item a { color: inherit; text-decoration: none; transition: color 0.2s; }
+  .concierge-meta-item a:hover { color: #c9b58a; }
+  .concierge-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .concierge-tag {
+    font-size: 11px; padding: 4px 12px;
+    background: rgba(201, 181, 138, 0.08);
+    color: #c9b58a;
+    border: 1px solid rgba(201, 181, 138, 0.2);
+    border-radius: 999px; letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  .concierge-tag.brand-tag {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.18);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700; letter-spacing: 0.08em;
+  }
+
+  .detail-btn {
+    flex-shrink: 0;
+    padding: 11px 18px;
+    background: transparent;
+    color: #c9b58a;
+    border: 1px solid #c9b58a;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .detail-btn:hover {
+    background: #c9b58a;
+    color: #0a1814;
+  }
+
+  /* ========== MODAL ========== */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none; align-items: center; justify-content: center;
+    z-index: 100; padding: 40px;
+    backdrop-filter: blur(12px);
+  }
+  .modal-bg.open { display: flex; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal {
+    background: linear-gradient(180deg, #15251e 0%, #0a1814 100%);
+    border-radius: 16px;
+    max-width: 760px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    border: 1px solid rgba(201, 181, 138, 0.25);
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal-header {
+    padding: 40px 44px 32px;
+    background: linear-gradient(135deg, #1c3829 0%, #0a1814 100%);
+    border-radius: 16px 16px 0 0;
+    border-bottom: 1px solid rgba(201, 181, 138, 0.2);
+    position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 22px; right: 22px;
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201, 181, 138, 0.2);
+    border-radius: 50%;
+    color: #c9b58a; font-size: 16px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .modal-close:hover {
+    background: rgba(201, 181, 138, 0.15);
+    color: #fff;
+  }
+
+  .modal-header-content {
+    display: flex; gap: 28px; align-items: center;
+  }
+  .modal-photo {
+    width: 130px; height: 160px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2a3d33 0%, #1a2620 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px; color: #c9b58a; font-weight: 500;
+    border: 1px solid rgba(201, 181, 138, 0.3);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .modal-photo::after {
+    content: '';
+    position: absolute; inset: 6px;
+    border: 1px solid rgba(201, 181, 138, 0.2);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  .modal-eyebrow {
+    font-size: 11px; color: #c9b58a;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 10px;
+  }
+  .modal-name {
+    font-size: 36px; font-weight: 700; color: #fff;
+    letter-spacing: 0.02em; margin-bottom: 8px;
+  }
+  .modal-cert {
+    font-size: 12px; color: rgba(201, 181, 138, 0.8);
+    letter-spacing: 0.05em;
+  }
+
+  .modal-body { padding: 32px 44px; }
+
+  .modal-section {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(201, 181, 138, 0.1);
+  }
+  .modal-section:last-child { border-bottom: 0; }
+  .modal-section-label {
+    font-size: 10px; color: rgba(201, 181, 138, 0.6);
+    letter-spacing: 0.22em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 10px;
+  }
+  .modal-section-value {
+    font-size: 15px; color: #e8e2d4; line-height: 1.75;
+  }
+  .modal-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .modal-tags .concierge-tag { font-size: 12px; padding: 6px 16px; }
+
+  .contact-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; margin-top: 0;
+  }
+  .contact-cell {
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(201, 181, 138, 0.08);
+  }
+  .contact-cell:nth-child(2n-1) { padding-right: 22px; }
+  .contact-cell:nth-child(2n) {
+    padding-left: 22px;
+    border-left: 1px solid rgba(201, 181, 138, 0.08);
+  }
+  .contact-label {
+    font-size: 10px; color: rgba(201, 181, 138, 0.6);
+    letter-spacing: 0.22em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 6px;
+  }
+  .contact-value { font-size: 14px; color: #fff; font-weight: 500; }
+  .contact-link { color: #fff; text-decoration: none; transition: color 0.18s; }
+  .contact-link:hover { color: #c9b58a; }
+
+  /* ========== CERTIFICATE SECTION ========== */
+  .cert-block {
+    margin: 8px 44px 28px;
+    background: linear-gradient(135deg, rgba(201, 181, 138, 0.06), rgba(201, 181, 138, 0.02));
+    border: 1px solid rgba(201, 181, 138, 0.25);
+    border-radius: 12px;
+    padding: 24px 26px;
+    display: flex; align-items: center; gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cert-block::before, .cert-block::after {
+    content: '';
+    position: absolute;
+    width: 12px; height: 12px;
+    border: 1px solid rgba(201, 181, 138, 0.4);
+  }
+  .cert-block::before {
+    top: 8px; left: 8px;
+    border-right: 0; border-bottom: 0;
+  }
+  .cert-block::after {
+    bottom: 8px; right: 8px;
+    border-left: 0; border-top: 0;
+  }
+  .cert-info { flex: 1; }
+  .cert-eyebrow {
+    font-size: 10px; color: #c9b58a;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    font-weight: 800; margin-bottom: 10px;
+  }
+  .cert-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 700; color: #fff;
+    line-height: 1.35; margin-bottom: 6px;
+  }
+  .cert-sub {
+    font-size: 11px; color: rgba(232, 226, 212, 0.55);
+    line-height: 1.6;
+  }
+  .cert-stamp {
+    flex-shrink: 0;
+    width: 96px; height: 96px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .cert-stamp svg { width: 100%; height: 100%; }
+
+  /* ========== SHARE LINK ========== */
+  .share-block {
+    margin: 0 44px 24px;
+    padding: 14px 18px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(201, 181, 138, 0.18);
+    border-radius: 10px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .share-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(201, 181, 138, 0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: #c9b58a; font-size: 14px;
+    flex-shrink: 0;
+  }
+  .share-text {
+    flex: 1; min-width: 0;
+  }
+  .share-label {
+    font-size: 9px; color: rgba(201, 181, 138, 0.7);
+    letter-spacing: 0.22em; font-weight: 700;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .share-url {
+    font-size: 12px; color: #fff;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font-family: 'Inter', monospace;
+  }
+  .share-copy {
+    flex-shrink: 0;
+    background: rgba(201, 181, 138, 0.15);
+    border: 1px solid rgba(201, 181, 138, 0.35);
+    color: #c9b58a;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: inherit; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .share-copy:hover {
+    background: #c9b58a; color: #0a1814;
+  }
+  .share-copy.copied {
+    background: #50c878; color: #fff; border-color: #50c878;
+  }
+
+  .modal-cta {
+    margin: 0 44px 36px;
+    display: flex; gap: 12px;
+  }
+  .cta-primary {
+    flex: 1;
+    padding: 20px;
+    background: linear-gradient(180deg, #c9b58a 0%, #a89366 100%);
+    color: #0a1814;
+    border: 0; border-radius: 999px;
+    font-family: inherit; font-size: 14px; font-weight: 700;
+    letter-spacing: 0.22em;
+    cursor: pointer;
+    transition: all 0.18s;
+    box-shadow: 0 8px 20px rgba(201, 181, 138, 0.25);
+  }
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(201, 181, 138, 0.35);
+  }
+  .cta-secondary {
+    padding: 20px 32px;
+    background: transparent;
+    color: rgba(232, 226, 212, 0.7);
+    border: 1px solid rgba(201, 181, 138, 0.25);
+    border-radius: 999px;
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s;
+    letter-spacing: 0.1em;
+  }
+  .cta-secondary:hover {
+    background: rgba(201, 181, 138, 0.08);
+    color: #c9b58a;
+  }
+
+  /* ========== FORM MODAL ========== */
+  .form-modal {
+    background: linear-gradient(180deg, #15251e 0%, #0a1814 100%);
+    border-radius: 16px;
+    max-width: 620px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    border: 1px solid rgba(201, 181, 138, 0.25);
+    animation: slideUp 0.25s ease;
+  }
+  .form-modal-header {
+    padding: 36px 40px 24px;
+    border-bottom: 1px solid rgba(201, 181, 138, 0.15);
+    position: relative;
+  }
+  .form-modal-eyebrow {
+    font-size: 11px; color: #c9b58a;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 8px;
+  }
+  .form-modal-title {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 26px; font-weight: 700; color: #fff;
+    letter-spacing: 0.01em; margin-bottom: 8px;
+  }
+  .form-modal-sub {
+    font-size: 13px; color: rgba(232, 226, 212, 0.6);
+    line-height: 1.6;
+  }
+  .form-body {
+    padding: 28px 40px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .form-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-label {
+    font-size: 11px; color: rgba(201, 181, 138, 0.7);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 700;
+  }
+  .form-label .required { color: #d97757; margin-left: 4px; }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 13px 14px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(201, 181, 138, 0.18);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #fff;
+    transition: border-color 0.18s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #c9b58a;
+  }
+  .form-input::placeholder, .form-textarea::placeholder {
+    color: rgba(232, 226, 212, 0.3);
+  }
+  .form-textarea { resize: vertical; min-height: 100px; font-family: inherit; }
+  .form-select { appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%23c9b58a' d='M6 9L1 4h10z'/></svg>");
+    background-repeat: no-repeat; background-position: right 14px center;
+    padding-right: 36px;
+  }
+  .form-select option { background: #0a1814; color: #fff; }
+
+  .form-checks { display: flex; gap: 8px; flex-wrap: wrap; }
+  .form-check {
+    cursor: pointer;
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(201, 181, 138, 0.18);
+    border-radius: 999px;
+    font-size: 12px; font-weight: 600;
+    color: rgba(232, 226, 212, 0.7);
+    user-select: none;
+    transition: all 0.18s;
+  }
+  .form-check input { display: none; }
+  .form-check.selected {
+    background: rgba(201, 181, 138, 0.15);
+    border-color: #c9b58a;
+    color: #c9b58a;
+  }
+
+  .form-notice {
+    padding: 14px 16px;
+    background: rgba(201, 181, 138, 0.06);
+    border: 1px solid rgba(201, 181, 138, 0.15);
+    border-radius: 6px;
+    font-size: 12px;
+    color: rgba(232, 226, 212, 0.7);
+    line-height: 1.6;
+  }
+  .form-notice strong { color: #c9b58a; }
+
+  .form-actions {
+    padding: 0 40px 36px;
+    display: flex; gap: 12px;
+  }
+
+  /* ========== EMPTY STATE / LOADING ========== */
+  .empty {
+    text-align: center;
+    padding: 100px 40px;
+    color: rgba(232, 226, 212, 0.4);
+    background: rgba(21, 37, 30, 0.4);
+    border-radius: 12px;
+    border: 1px dashed rgba(201, 181, 138, 0.15);
+    grid-column: 1 / -1;
+  }
+  .empty-icon { font-size: 42px; margin-bottom: 18px; opacity: 0.5; }
+  .empty-text { font-size: 14px; }
+  .loading {
+    text-align: center;
+    padding: 80px 40px;
+    grid-column: 1 / -1;
+  }
+  .loading-spinner {
+    width: 36px; height: 36px;
+    border: 2px solid rgba(201, 181, 138, 0.2);
+    border-top-color: #c9b58a;
+    border-radius: 50%;
+    margin: 0 auto 18px;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text {
+    font-size: 13px; color: rgba(232, 226, 212, 0.5);
+    letter-spacing: 0.15em;
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 960px) {
+    .list { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .hero-title { font-size: 38px; }
+    .hero-title-kr { font-size: 20px; }
+    .container { padding: 0 16px; margin-top: -32px; }
+    .list-item { flex-direction: column; align-items: stretch; padding: 22px; gap: 18px; }
+    .concierge-photo { width: 100%; height: 280px; font-size: 72px; }
+    .store-item .concierge-photo { width: 100%; height: 280px; }
+    .detail-btn { width: 100%; padding: 16px; }
+    .header-nav { display: none; }
+    .modal-header-content { flex-direction: column; text-align: center; }
+    .modal-photo { width: 140px; height: 180px; }
+    .contact-row { grid-template-columns: 1fr; }
+    .contact-cell:nth-child(2n) { border-left: 0; padding-left: 0; }
+    .modal-cta { flex-direction: column; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <img class="logo-img" src="images/logo.png" alt="VIA ELITE">
+    </div>
+    <nav class="header-nav">
+      <a href="#" class="active">컨시어지</a>
+      <a href="https://viaelite.kr" target="_blank">브랜드 소개</a>
+      <a href="#" onclick="openApplyModal(event)">컨시어지 신청</a>
+      <a href="#" onclick="openContactModal(event)">문의·건의</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">OFFICIAL CONCIERGE</div>
+    <h1 class="hero-title">Via Elite Concierge</h1>
+    <div class="hero-title-kr">비아엘리떼 공식 컨시어지</div>
+    <div class="hero-divider"></div>
+    <div class="hero-warning">
+      <div class="hero-warning-title">⚠ 공식 컨시어지 안내</div>
+      <p class="hero-warning-text">
+        비아엘리떼는 <strong>아래 등재된 공식 컨시어지를 통해서만 명품을 공급</strong>합니다.
+        그 외 채널에서 비아엘리떼 명의로 거래를 제안하는 경우, 본사와 무관한 사칭이며 정품·보상 정책이 적용되지 않습니다.
+        반드시 본 페이지에서 컨시어지 등재 여부를 확인하신 후 거래해주십시오.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTAINER -->
+<div class="container">
+
+  <!-- TAB SWITCH -->
+  <div class="tab-switch">
+    <button class="tab-btn active" data-tab="concierge" type="button" onclick="switchTab('concierge', this)">
+      <span style="pointer-events:none;">공식 컨시어지</span><span class="tab-count" style="pointer-events:none;">—</span>
+    </button>
+    <button class="tab-btn" data-tab="store" type="button" onclick="switchTab('store', this)">
+      <span style="pointer-events:none;">공식 오프라인 매장</span><span class="tab-count" style="pointer-events:none;">—</span>
+    </button>
+  </div>
+
+  <!-- REGION FILTER -->
+  <div class="filter-bar">
+    <span class="filter-label">지역</span>
+    <div class="region-chips" id="regionChips">
+      <button class="region-chip active" data-region="ALL">전체</button>
+      <button class="region-chip" data-region="서울">서울</button>
+      <button class="region-chip" data-region="인천">인천</button>
+      <button class="region-chip" data-region="경기">경기</button>
+      <button class="region-chip" data-region="부산">부산</button>
+      <button class="region-chip" data-region="대구">대구</button>
+      <button class="region-chip" data-region="대전">대전</button>
+      <button class="region-chip" data-region="광주">광주</button>
+      <button class="region-chip" data-region="울산">울산</button>
+      <button class="region-chip" data-region="제주">제주</button>
+    </div>
+    <span class="result-count"><strong id="resultCount">12</strong>명</span>
+  </div>
+
+  <!-- LIST -->
+  <div class="list" id="list"></div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-header-content">
+        <div class="modal-photo" id="mPhoto">홍</div>
+        <div>
+          <div class="modal-eyebrow" id="mEyebrow">CONCIERGE · 등재번호 0042</div>
+          <div class="modal-name" id="mName">홍길동</div>
+          <div class="modal-cert" id="mCert">2026.03.15 공식 등재</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-label">활동 지역</div>
+        <div class="modal-section-value" id="mRegion">서울 강남구·서초구</div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">담당 카테고리</div>
+        <div class="modal-tags" id="mTags"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">자기 소개</div>
+        <div class="modal-section-value" id="mIntro"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">연락처</div>
+        <div class="contact-row">
+          <div class="contact-cell">
+            <div class="contact-label">Phone</div>
+            <div class="contact-value"><a href="#" id="mPhone" class="contact-link"></a></div>
+          </div>
+          <div class="contact-cell">
+            <div class="contact-label">Email</div>
+            <div class="contact-value"><a href="#" id="mEmail" class="contact-link"></a></div>
+          </div>
+          <div class="contact-cell">
+            <div class="contact-label">Kakao</div>
+            <div class="contact-value"><a href="#" id="mKakao" class="contact-link" target="_blank"></a></div>
+          </div>
+          <div class="contact-cell">
+            <div class="contact-label">공식 채널</div>
+            <div class="contact-value"><a href="#" id="mChannel" class="contact-link" target="_blank">공식 채널 보기 →</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 본사 보증 인증서 -->
+    <div class="cert-block">
+      <div class="cert-info">
+        <div class="cert-eyebrow">VIA ELITE · OFFICIAL GUARANTEE</div>
+        <div class="cert-title">본 컨시어지는 비아엘리떼<br>본사가 공식 보증합니다</div>
+        <div class="cert-sub">전 거래에 대해 정품·환불·보상 정책이 본사로부터 적용됩니다.</div>
+      </div>
+      <div class="cert-stamp">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <path id="stampCircle" d="M 100, 100 m -78, 0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0"/>
+          </defs>
+          <circle cx="100" cy="100" r="92" fill="none" stroke="#c9b58a" stroke-width="2"/>
+          <circle cx="100" cy="100" r="84" fill="none" stroke="#c9b58a" stroke-width="0.6" opacity="0.6"/>
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#c9b58a" stroke-width="0.8" stroke-dasharray="1.5 3" opacity="0.55"/>
+          <text font-family="Inter, sans-serif" font-size="11" font-weight="800" letter-spacing="3" fill="#c9b58a">
+            <textPath href="#stampCircle" startOffset="2%">VIA ELITE · OFFICIAL CONCIERGE · CERTIFIED ·</textPath>
+          </text>
+          <text x="100" y="88" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" letter-spacing="2" fill="#c9b58a">CERTIFIED</text>
+          <text x="100" y="113" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="22" font-weight="700" fill="#c9b58a" id="stampCert">No. 0042</text>
+          <text x="100" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="600" letter-spacing="1.5" fill="#c9b58a" opacity="0.7">2026 OFFICIAL</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="modal-cta">
+      <button class="cta-primary" id="ctaRecommend">추천 상품 보기  →</button>
+      <button class="cta-secondary" onclick="closeModal()">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- APPLY MODAL — 컨시어지 신청 -->
+<div class="modal-bg" id="applyModalBg">
+  <div class="form-modal">
+    <div class="form-modal-header">
+      <button class="modal-close" onclick="closeApplyModal()">✕</button>
+      <div class="form-modal-eyebrow">CONCIERGE APPLICATION</div>
+      <div class="form-modal-title">컨시어지 신청</div>
+      <div class="form-modal-sub">
+        비아엘리떼 공식 컨시어지로 등재 신청합니다.<br>
+        신청서 검토 후 1:1 면접을 거쳐 합격자에 한해 등재됩니다.
+      </div>
+    </div>
+
+    <form id="applyForm" class="form-body" onsubmit="submitApply(event)">
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">이름 <span class="required">*</span></label>
+          <input class="form-input" type="text" name="name" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label">생년월일 <span class="required">*</span></label>
+          <input class="form-input" type="text" name="birth" placeholder="YYYY-MM-DD" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">휴대폰 번호 <span class="required">*</span></label>
+          <input class="form-input" type="tel" name="phone" placeholder="010-0000-0000" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label">이메일 <span class="required">*</span></label>
+          <input class="form-input" type="email" name="email" placeholder="example@email.com" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">거주 지역 <span class="required">*</span></label>
+          <select class="form-select" name="region" required>
+            <option value="">선택하세요</option>
+            <option value="서울">서울</option>
+            <option value="인천">인천</option>
+            <option value="경기">경기</option>
+            <option value="부산">부산</option>
+            <option value="대구">대구</option>
+            <option value="대전">대전</option>
+            <option value="광주">광주</option>
+            <option value="울산">울산</option>
+            <option value="제주">제주</option>
+            <option value="기타">기타 지역</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label">희망 활동 지역</label>
+          <input class="form-input" type="text" name="activeArea" placeholder="예: 강남구·서초구">
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">관심 카테고리 (복수 선택 가능)</label>
+        <div class="form-checks" id="categoryChecks">
+          <label class="form-check"><input type="checkbox" value="가방">가방</label>
+          <label class="form-check"><input type="checkbox" value="구두">구두</label>
+          <label class="form-check"><input type="checkbox" value="상의">상의</label>
+          <label class="form-check"><input type="checkbox" value="하의">하의</label>
+          <label class="form-check"><input type="checkbox" value="원피스">원피스</label>
+          <label class="form-check"><input type="checkbox" value="악세사리">악세사리</label>
+          <label class="form-check"><input type="checkbox" value="주얼리">주얼리</label>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">현재 직업 / 경력</label>
+        <input class="form-input" type="text" name="job" placeholder="예: 백화점 명품 매장 5년 / 회사원">
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">지원 동기 <span class="required">*</span></label>
+        <textarea class="form-textarea" name="motivation" required placeholder="비아엘리떼 컨시어지로 활동하고 싶은 이유를 자유롭게 작성해주세요."></textarea>
+      </div>
+
+      <div class="form-notice">
+        <strong>안내</strong><br>
+        · 신청서 제출 후 영업일 기준 3일 이내 1:1 면접 일정을 안내드립니다.<br>
+        · 본 신청은 자동 등재가 아니며, <strong>면접·서류 검토를 통과한 분에 한해 등재</strong>됩니다.<br>
+        · 정원 마감 시 즉시 접수가 종료됩니다.
+      </div>
+    </form>
+
+    <div class="form-actions">
+      <button class="cta-primary" type="submit" form="applyForm">신청서 제출  →</button>
+      <button class="cta-secondary" onclick="closeApplyModal()">취소</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT MODAL — 문의·건의 -->
+<div class="modal-bg" id="contactModalBg">
+  <div class="form-modal">
+    <div class="form-modal-header">
+      <button class="modal-close" onclick="closeContactModal()">✕</button>
+      <div class="form-modal-eyebrow">CONTACT US</div>
+      <div class="form-modal-title">문의 · 건의</div>
+      <div class="form-modal-sub">
+        궁금하신 점, 불편하셨던 점, 개선 의견을 자유롭게 남겨주세요.<br>
+        영업일 기준 3일 이내 회신드립니다.
+      </div>
+    </div>
+
+    <form id="contactForm" class="form-body" onsubmit="submitContact(event)">
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">이름 <span class="required">*</span></label>
+          <input class="form-input" type="text" name="name" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label">연락처 <span class="required">*</span></label>
+          <input class="form-input" type="text" name="contact" placeholder="휴대폰 또는 이메일" required>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">문의 유형 <span class="required">*</span></label>
+        <select class="form-select" name="type" required>
+          <option value="">선택하세요</option>
+          <option value="일반 문의">일반 문의</option>
+          <option value="구매 관련">구매 관련</option>
+          <option value="컨시어지 관련">컨시어지 관련</option>
+          <option value="매장 관련">매장 관련</option>
+          <option value="정품·보상 관련">정품·보상 관련</option>
+          <option value="불만 사항">불만 사항</option>
+          <option value="개선 건의">개선 건의</option>
+          <option value="기타">기타</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">관련 컨시어지 (선택)</label>
+        <input class="form-input" type="text" name="relatedConcierge" placeholder="컨시어지 이름 또는 등재번호 (해당 시)">
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">내용 <span class="required">*</span></label>
+        <textarea class="form-textarea" name="content" required placeholder="구체적으로 작성해주시면 빠른 처리에 도움이 됩니다." style="min-height: 140px;"></textarea>
+      </div>
+
+      <div class="form-notice">
+        <strong>개인정보 처리 안내</strong><br>
+        · 접수된 정보는 문의 응답 및 서비스 개선 목적으로만 사용됩니다.<br>
+        · 응답 완료 후 1년간 보관 후 즉시 폐기됩니다.
+      </div>
+    </form>
+
+    <div class="form-actions">
+      <button class="cta-primary" type="submit" form="contactForm">제출  →</button>
+      <button class="cta-secondary" onclick="closeContactModal()">취소</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== CONFIG =====
+const API_URL = 'https://script.google.com/macros/s/AKfycbwaB_pIwjQoOm1OWz0WI4WmXMSePvpnjTu4XemYCU6mfeIyoJcbJ4mvlcNAVqh17o4klg/exec';
+
+let concierges = [];
+let stores = [];
+
+// 데모 데이터 (백엔드 응답 없을 때 폴백)
+const FALLBACK_CONCIERGES = [
+  { id: 1, name: '홍길동', initial: '홍', img: '', role: 'CHIEF CONCIERGE', region: '서울', regionDetail: '서울 강남구·서초구', email: 'hong@viaelite.kr', phone: '010-1234-5678', kakao: '@viaelite_hong', officialChannel: 'https://pf.kakao.com/_viaelite_hong', cert: '0042', joined: '2026.03.15', tags: ['가방', '악세사리'], intro: '명품 브랜드에 대한 깊은 이해와 10년간의 백화점 영업 경험을 바탕으로, 고객 한 분 한 분의 라이프스타일에 맞는 최적의 상품을 제안합니다.', link: 'https://litt.ly/hong' },
+  { id: 2, name: '김민지', initial: '김', img: '', role: 'CONCIERGE', region: '서울', regionDetail: '서울 강북·노원', email: 'minji@viaelite.kr', phone: '010-2345-6789', kakao: '@viaelite_minji', officialChannel: 'https://pf.kakao.com/_viaelite_minji', cert: '0058', joined: '2026.04.02', tags: ['상의', '하의', '원피스'], intro: '여성 명품 패션 전문 컨시어지로, 시즌별 신상품과 한정 에디션 정보를 가장 빠르게 전달드립니다.', link: 'https://litt.ly/minji' },
+  { id: 3, name: '이재훈', initial: '이', img: '', role: 'CHIEF CONCIERGE', region: '경기', regionDetail: '경기 성남·분당', email: 'jaehoon@viaelite.kr', phone: '010-3456-7890', kakao: '@viaelite_jh', officialChannel: 'https://pf.kakao.com/_viaelite_jh', cert: '0073', joined: '2026.04.20', tags: ['남성 의류', '신발', '가방'], intro: '남성 명품 브랜드의 트렌드와 클래식 균형을 가장 잘 이해하는 컨시어지입니다.', link: 'https://litt.ly/jaehoon' },
+  { id: 4, name: '박서연', initial: '박', img: '', region: '부산', regionDetail: '부산 해운대·수영구', email: 'seoyeon@viaelite.kr', phone: '010-4567-8901', kakao: '@viaelite_seo', officialChannel: 'https://pf.kakao.com/_viaelite_seo', cert: '0091', joined: '2026.05.01', tags: ['가방', '주얼리'], intro: '부산 지역 상위 1% 고객을 응대해온 베테랑. 희귀 에디션·한정판 소싱이 가장 큰 강점입니다.', link: 'https://litt.ly/seoyeon' },
+  { id: 5, name: '최유진', initial: '최', img: '', region: '인천', regionDetail: '인천 송도·연수구', email: 'yujin@viaelite.kr', phone: '010-5678-9012', kakao: '@viaelite_yu', officialChannel: 'https://pf.kakao.com/_viaelite_yu', cert: '0102', joined: '2026.05.10', tags: ['상의', '하의'], intro: '명품 캐주얼과 데일리룩 전문. 고객의 일상에 어울리는 합리적인 명품 제안을 합니다.', link: 'https://litt.ly/yujin' },
+  { id: 6, name: '정수민', initial: '정', img: '', region: '대구', regionDetail: '대구 수성구', email: 'sumin@viaelite.kr', phone: '010-6789-0123', kakao: '@viaelite_sm', officialChannel: 'https://pf.kakao.com/_viaelite_sm', cert: '0118', joined: '2026.05.18', tags: ['가방', '신발'], intro: '대구 지역 명품 시장의 흐름을 가장 잘 아는 컨시어지. 빠른 소싱과 정확한 추천.', link: 'https://litt.ly/sumin' },
+  { id: 7, name: '강민호', initial: '강', img: '', region: '대전', regionDetail: '대전 유성구', email: 'minho@viaelite.kr', phone: '010-7890-1234', kakao: '@viaelite_mh', officialChannel: 'https://pf.kakao.com/_viaelite_mh', cert: '0125', joined: '2026.05.20', tags: ['남성 의류', '주얼리'], intro: '남성 명품 전문. 입문자부터 컬렉터까지 맞춤 조언을 제공합니다.', link: 'https://litt.ly/minho' },
+  { id: 8, name: '윤지원', initial: '윤', img: '', region: '광주', regionDetail: '광주 서구·남구', email: 'jiwon@viaelite.kr', phone: '010-8901-2345', kakao: '@viaelite_jw', officialChannel: 'https://pf.kakao.com/_viaelite_jw', cert: '0131', joined: '2026.05.24', tags: ['원피스', '주얼리'], intro: '예식·기념일 코디네이션 전문. 특별한 날을 위한 맞춤 제안을 합니다.', link: 'https://litt.ly/jiwon' },
+];
+
+const FALLBACK_STORES = [
+  { id: 's1', name: '비아엘리떼 강남 플래그십', img: '', region: '서울', regionDetail: '서울 강남구 청담동', addressFull: '서울 강남구 청담동 123-45 비아엘리떼 빌딩 1-3F', phone: '02-1234-5678', hours: '11:00 — 21:00', intro: '강남 플래그십.', brands: ['GUCCI', 'PRADA'], categories: ['가방'], officialChannel: 'https://pf.kakao.com/_x' },
+];
+
+// ===== API =====
+function showLoading() {
+  const list = document.getElementById('list');
+  if (list) {
+    list.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">불러오는 중...</div></div>`;
+  }
+}
+
+async function loadData() {
+  showLoading();
+  try {
+    const [cRes, sRes] = await Promise.all([
+      fetch(API_URL + '?action=list_concierges').then(r => r.json()),
+      fetch(API_URL + '?action=list_stores').then(r => r.json())
+    ]);
+    concierges = (cRes && cRes.success && cRes.items && cRes.items.length) ? cRes.items.map(c => ({ ...c, initial: (c.name || '').charAt(0) })) : [];
+    stores = (sRes && sRes.success && sRes.items && sRes.items.length) ? sRes.items.map(s => ({ ...s, initial: 'V' })) : [];
+    console.log('Loaded concierges:', concierges.length, concierges);
+    console.log('Loaded stores:', stores.length, stores);
+  } catch (err) {
+    console.error('데이터 로드 실패:', err);
+    concierges = [];
+    stores = [];
+  }
+  updateTabCounts();
+  renderList();
+  checkUrlForConcierge(); // URL 파라미터로 자동 모달 열기
+}
+
+function updateTabCounts() {
+  const cBtn = document.querySelector('.tab-btn[data-tab="concierge"] .tab-count');
+  const sBtn = document.querySelector('.tab-btn[data-tab="store"] .tab-count');
+  if (cBtn) cBtn.textContent = concierges.length + '명';
+  if (sBtn) sBtn.textContent = stores.length + '곳';
+}
+
+let currentTab = 'concierge';
+let currentRegion = 'ALL';
+
+function getData() {
+  const source = currentTab === 'concierge' ? concierges : stores;
+  return currentRegion === 'ALL' ? source : source.filter(c => c.region === currentRegion);
+}
+
+function renderList() {
+  const list = document.getElementById('list');
+  const data = getData();
+  const unit = currentTab === 'concierge' ? '명' : '곳';
+  const countEl = document.querySelector('.result-count');
+  if (countEl) countEl.innerHTML = `<strong>${data.length}</strong>${unit}`;
+
+  if (data.length === 0) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><div class="empty-text">해당 지역에 등재된 항목이 없습니다.</div></div>`;
+    return;
+  }
+
+  list.innerHTML = data.map(item => {
+    const isStore = currentTab === 'store';
+    const photoEl = item.img
+      ? `<img src="${item.img}" alt="${item.name}">`
+      : item.initial;
+
+    if (isStore) {
+      const brandTags = (item.brands || []).map(b => `<span class="concierge-tag brand-tag">${b}</span>`).join('');
+      const catTags = (item.categories || []).map(c => `<span class="concierge-tag">${c}</span>`).join('');
+      return `
+        <div class="list-item store-item" data-id="${item.id}">
+          <div class="concierge-photo">${photoEl}</div>
+          <div class="concierge-info">
+            <span class="store-badge">Official Store</span>
+            <div class="concierge-name">${item.name}</div>
+            <div class="concierge-meta">
+              <div class="concierge-meta-item"><span class="meta-label">주소</span><span>${item.regionDetail}</span></div>
+              <div class="concierge-meta-item"><span class="meta-label">운영</span><span>${item.hours}</span></div>
+              <div class="concierge-meta-item"><span class="meta-label">공식채널</span><a href="${item.officialChannel}" target="_blank">공식 채널 보기 →</a></div>
+              <div class="concierge-meta-item"><span class="meta-label">상세주소</span><span>${item.addressFull || item.regionDetail}</span></div>
+            </div>
+            <div class="concierge-tags">${brandTags}${catTags}</div>
+          </div>
+        </div>
+      `;
+    }
+    const role = item.role || 'CONCIERGE';
+    const roleClass = role === 'CHIEF CONCIERGE' || role === 'BRANCH MANAGER' || role === 'CHIEF CONCIERGE CONCIERGE' ? 'branch' : '';
+    return `
+    <div class="list-item" data-id="${item.id}">
+      <div class="concierge-photo">${photoEl}</div>
+      <div class="concierge-info">
+        <div class="concierge-role ${roleClass}">▸ ${role}</div>
+        <div class="concierge-cert">등재번호 ${item.cert}</div>
+        <div class="concierge-name">${item.name}</div>
+        <div class="concierge-meta">
+          <div class="concierge-meta-item"><span class="meta-label">지역</span><span>${item.regionDetail}</span></div>
+          <div class="concierge-meta-item"><span class="meta-label">이메일</span><a href="mailto:${item.email}">${item.email}</a></div>
+        </div>
+        <div class="concierge-tags">
+          ${item.tags.map(t => `<span class="concierge-tag">${t}</span>`).join('')}
+        </div>
+      </div>
+      <button class="detail-btn" onclick="openModal('${item.id}')">자세히 보기</button>
+    </div>
+  `;}).join('');
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  currentTab = tab;
+  currentRegion = 'ALL';
+  document.querySelectorAll('.region-chip').forEach(c => c.classList.toggle('active', c.dataset.region === 'ALL'));
+  renderList();
+}
+
+document.getElementById('regionChips').addEventListener('click', e => {
+  const chip = e.target.closest('.region-chip');
+  if (!chip) return;
+  document.querySelectorAll('.region-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  currentRegion = chip.dataset.region;
+  renderList();
+});
+
+function openModal(id) {
+  console.log('openModal called with id:', id, 'currentTab:', currentTab);
+  if (currentTab !== 'concierge') {
+    console.warn('Modal only shows for concierge tab');
+    return;
+  }
+  const item = concierges.find(c => String(c.id) === String(id));
+  if (!item) {
+    console.warn('Concierge not found for id:', id, 'available ids:', concierges.map(c => c.id));
+    return;
+  }
+  console.log('Opening modal for:', item.name);
+
+  // 사진
+  const photoEl = document.getElementById('mPhoto');
+  if (item.img) {
+    photoEl.innerHTML = `<img src="${item.img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+  } else {
+    photoEl.textContent = item.initial;
+  }
+
+  document.getElementById('mName').textContent = item.name;
+  document.getElementById('mEyebrow').textContent = `CONCIERGE · 등재번호 ${item.cert}`;
+  document.getElementById('mCert').textContent = `${item.joined} 공식 등재`;
+  document.getElementById('mRegion').textContent = item.regionDetail;
+  document.getElementById('mTags').innerHTML = item.tags.map(t => `<span class="concierge-tag">${t}</span>`).join('');
+  document.getElementById('mIntro').textContent = item.intro;
+
+  // 연락처 — 링크 부여 (모든 값을 String 변환해서 안전하게)
+  const phone = String(item.phone || '');
+  const email = String(item.email || '');
+  const kakao = String(item.kakao || '');
+  const channel = String(item.officialChannel || '');
+
+  const phoneEl = document.getElementById('mPhone');
+  phoneEl.textContent = phone || '—';
+  phoneEl.href = phone ? 'tel:' + phone.replace(/[^0-9]/g, '') : '#';
+
+  const emailEl = document.getElementById('mEmail');
+  emailEl.textContent = email || '—';
+  emailEl.href = email ? 'mailto:' + email : '#';
+
+  const kakaoEl = document.getElementById('mKakao');
+  kakaoEl.textContent = kakao || '—';
+  kakaoEl.href = kakao
+    ? (kakao.startsWith('http') ? kakao : 'https://open.kakao.com/' + kakao.replace('@', ''))
+    : '#';
+
+  const channelEl = document.getElementById('mChannel');
+  channelEl.textContent = '공식 채널 보기 →';
+  channelEl.href = channel || '#';
+
+  // 도장 번호 — 등재번호 표시
+  const stampEl = document.getElementById('stampCert');
+  if (stampEl) stampEl.textContent = 'No. ' + (item.cert || '0000');
+
+  // CTA: 멀티링크
+  document.getElementById('ctaRecommend').onclick = () => window.open(item.link, '_blank');
+  document.getElementById('ctaRecommend').textContent = '추천 상품 보기  →';
+
+  document.getElementById('modalBg').classList.add('open');
+}
+
+// URL path 또는 ?c= 파라미터로 자동 모달 열기
+// 지원 패턴:
+//   /concierge/0042       (메인 사이트 통합 시)
+//   /0042                  (단독 도메인 시)
+//   /?c=0042              (구버전 폴백)
+function checkUrlForConcierge() {
+  const path = window.location.pathname;
+  let certOrId = '';
+
+  // path 마지막 segment 추출
+  const segments = path.split('/').filter(Boolean);
+  const last = segments[segments.length - 1];
+  if (last && last !== 'concierge' && last !== 'index.html' && !last.endsWith('.html')) {
+    certOrId = decodeURIComponent(last);
+  }
+
+  // 폴백 — 쿼리 파라미터
+  if (!certOrId) {
+    const params = new URLSearchParams(window.location.search);
+    certOrId = params.get('c') || '';
+  }
+  if (!certOrId) return;
+
+  const item = concierges.find(c =>
+    String(c.slug || '') === certOrId ||
+    String(c.cert) === certOrId ||
+    String(c.id) === certOrId
+  );
+  if (item) {
+    currentTab = 'concierge';
+    setTimeout(() => openModal(item.id), 100);
+  }
+}
+function closeModal() {
+  document.getElementById('modalBg').classList.remove('open');
+}
+document.getElementById('modalBg').addEventListener('click', e => {
+  if (e.target.id === 'modalBg') closeModal();
+});
+
+// ===== APPLY MODAL =====
+function openApplyModal(e) {
+  if (e) e.preventDefault();
+  document.getElementById('applyModalBg').classList.add('open');
+}
+function closeApplyModal() {
+  document.getElementById('applyModalBg').classList.remove('open');
+}
+document.getElementById('applyModalBg').addEventListener('click', e => {
+  if (e.target.id === 'applyModalBg') closeApplyModal();
+});
+
+// 카테고리 체크박스 토글 시각 효과
+document.getElementById('categoryChecks').addEventListener('click', e => {
+  const label = e.target.closest('.form-check');
+  if (!label) return;
+  setTimeout(() => {
+    const checkbox = label.querySelector('input');
+    label.classList.toggle('selected', checkbox.checked);
+  }, 0);
+});
+
+async function submitApply(e) {
+  e.preventDefault();
+  const form = document.getElementById('applyForm');
+  const data = Object.fromEntries(new FormData(form));
+  const categories = [...document.querySelectorAll('#categoryChecks input:checked')].map(c => c.value);
+  data.categories = categories;
+  data.action = 'save_application';
+
+  const btn = form.parentElement.querySelector('.cta-primary');
+  if (btn) btn.disabled = true;
+
+  try {
+    const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(data) });
+    const result = await res.json();
+    if (result.success) {
+      alert('신청서가 접수되었습니다.\n영업일 기준 3일 이내 1:1 면접 일정을 안내드립니다.');
+      form.reset();
+      document.querySelectorAll('#categoryChecks .form-check').forEach(c => c.classList.remove('selected'));
+      closeApplyModal();
+    } else {
+      alert('접수 실패: ' + (result.message || '잠시 후 다시 시도해주세요.'));
+    }
+  } catch (err) {
+    alert('서버 연결 오류. 잠시 후 다시 시도해주세요.');
+  }
+  if (btn) btn.disabled = false;
+}
+
+// ===== CONTACT MODAL =====
+function openContactModal(e) {
+  if (e) e.preventDefault();
+  document.getElementById('contactModalBg').classList.add('open');
+}
+function closeContactModal() {
+  document.getElementById('contactModalBg').classList.remove('open');
+}
+document.getElementById('contactModalBg').addEventListener('click', e => {
+  if (e.target.id === 'contactModalBg') closeContactModal();
+});
+
+async function submitContact(e) {
+  e.preventDefault();
+  const form = document.getElementById('contactForm');
+  const data = Object.fromEntries(new FormData(form));
+  data.action = 'save_inquiry';
+
+  const btn = form.parentElement.querySelector('.cta-primary');
+  if (btn) btn.disabled = true;
+
+  try {
+    const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(data) });
+    const result = await res.json();
+    if (result.success) {
+      alert('소중한 의견 감사합니다.\n영업일 기준 3일 이내 회신드리겠습니다.');
+      form.reset();
+      closeContactModal();
+    } else {
+      alert('접수 실패: ' + (result.message || '잠시 후 다시 시도해주세요.'));
+    }
+  } catch (err) {
+    alert('서버 연결 오류. 잠시 후 다시 시도해주세요.');
+  }
+  if (btn) btn.disabled = false;
+}
+
+// 페이지 로드 시 시트에서 데이터 불러오기
+loadData();
+</script>
+
+</body>
+</html>

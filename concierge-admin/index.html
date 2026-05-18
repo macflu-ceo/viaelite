@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비아엘리떼 컨시어지 어드민</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', sans-serif;
+    background: #0a1814;
+    color: #e8e2d4;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ========== LOGIN ========== */
+  .login-bg {
+    position: fixed; inset: 0;
+    background: linear-gradient(135deg, #0a1814 0%, #060f0c 100%);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200;
+  }
+  .login-card {
+    background: rgba(21, 37, 30, 0.6);
+    border: 1px solid rgba(201, 181, 138, 0.25);
+    border-radius: 16px;
+    padding: 56px 48px;
+    max-width: 420px; width: 100%;
+    backdrop-filter: blur(20px);
+  }
+  .login-logo { text-align: center; margin-bottom: 32px; }
+  .login-logo img { height: 48px; }
+  .login-title {
+    text-align: center;
+    font-size: 14px; color: #c9b58a;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 32px;
+  }
+  .login-form { display: flex; flex-direction: column; gap: 14px; }
+  .login-form input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(201, 181, 138, 0.18);
+    border-radius: 8px;
+    color: #fff;
+    font-family: inherit; font-size: 14px;
+  }
+  .login-form input:focus { outline: none; border-color: #c9b58a; }
+  .login-form button {
+    margin-top: 8px;
+    padding: 16px;
+    background: linear-gradient(180deg, #c9b58a 0%, #a89366 100%);
+    color: #0a1814;
+    border: 0; border-radius: 999px;
+    font-family: inherit; font-size: 14px; font-weight: 800;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .login-form button:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(201, 181, 138, 0.3); }
+  .login-error {
+    font-size: 12px; color: #ef4444; margin-top: 12px; text-align: center;
+  }
+
+  /* ========== LAYOUT ========== */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+  }
+  .sidebar {
+    background: #060f0c;
+    border-right: 1px solid rgba(201, 181, 138, 0.1);
+    padding: 24px 0;
+    display: flex; flex-direction: column;
+    position: sticky; top: 0; height: 100vh;
+  }
+  .sidebar-logo {
+    padding: 0 24px 28px;
+    border-bottom: 1px solid rgba(201, 181, 138, 0.08);
+  }
+  .sidebar-logo img { height: 32px; }
+  .sidebar-section-label {
+    padding: 24px 24px 12px;
+    font-size: 10px; color: rgba(201, 181, 138, 0.6);
+    letter-spacing: 0.22em; font-weight: 700; text-transform: uppercase;
+  }
+  .sidebar-nav { display: flex; flex-direction: column; }
+  .nav-item {
+    padding: 12px 24px;
+    font-size: 14px; color: rgba(232, 226, 212, 0.65);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-item:hover { background: rgba(201, 181, 138, 0.05); color: #fff; }
+  .nav-item.active {
+    background: rgba(201, 181, 138, 0.08);
+    color: #c9b58a;
+    border-left-color: #c9b58a;
+    font-weight: 700;
+  }
+  .nav-item .nav-count {
+    font-size: 11px; color: rgba(232, 226, 212, 0.4);
+    background: rgba(255,255,255,0.05);
+    padding: 2px 8px; border-radius: 999px;
+    font-weight: 500;
+  }
+  .nav-item.active .nav-count {
+    background: rgba(201, 181, 138, 0.15); color: #c9b58a;
+  }
+
+  .sidebar-bottom {
+    margin-top: auto;
+    padding: 16px 24px;
+    border-top: 1px solid rgba(201, 181, 138, 0.08);
+    font-size: 11px; color: rgba(232, 226, 212, 0.4);
+  }
+  .sidebar-bottom .user { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .sidebar-bottom .user-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #50c878;
+  }
+  .sidebar-bottom .logout-btn {
+    background: transparent; border: 1px solid rgba(232, 226, 212, 0.15);
+    color: rgba(232, 226, 212, 0.6); font-family: inherit;
+    font-size: 11px; padding: 6px 14px; border-radius: 999px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .sidebar-bottom .logout-btn:hover { color: #ef4444; border-color: #ef4444; }
+
+  /* ========== MAIN ========== */
+  .main { padding: 32px 40px; max-width: 1400px; }
+  .page-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .page-title-area .page-eyebrow {
+    font-size: 11px; color: #c9b58a;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 6px;
+  }
+  .page-title {
+    font-size: 26px; font-weight: 700; color: #fff;
+  }
+  .page-title-area .page-sub {
+    font-size: 13px; color: rgba(232, 226, 212, 0.5);
+    margin-top: 4px;
+  }
+
+  .btn {
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.18s;
+    border: 0;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary {
+    background: linear-gradient(180deg, #c9b58a 0%, #a89366 100%);
+    color: #0a1814;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(201, 181, 138, 0.25); }
+  .btn-ghost {
+    background: transparent;
+    color: #c9b58a;
+    border: 1px solid rgba(201, 181, 138, 0.3);
+  }
+  .btn-ghost:hover { background: rgba(201, 181, 138, 0.08); }
+  .btn-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+  .btn-danger:hover { background: rgba(239, 68, 68, 0.2); }
+  .btn-sm { padding: 7px 12px; font-size: 11px; }
+
+  /* ========== TABLE ========== */
+  .table-wrap {
+    background: #15251e;
+    border-radius: 12px;
+    border: 1px solid rgba(201, 181, 138, 0.1);
+    overflow: hidden;
+  }
+  .table-toolbar {
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid rgba(201, 181, 138, 0.08);
+    flex-wrap: wrap;
+  }
+  .table-search {
+    flex: 1; min-width: 200px;
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(201, 181, 138, 0.18);
+    border-radius: 8px;
+    color: #fff;
+    font-family: inherit; font-size: 13px;
+  }
+  .table-search:focus { outline: none; border-color: #c9b58a; }
+  .table-filter-select {
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(201, 181, 138, 0.18);
+    border-radius: 8px;
+    color: #fff; font-family: inherit; font-size: 13px;
+    cursor: pointer;
+  }
+  .table-overflow { overflow-x: auto; }
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px;
+  }
+  table th {
+    text-align: left;
+    padding: 14px 16px;
+    background: rgba(0,0,0,0.2);
+    color: rgba(201, 181, 138, 0.7);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    border-bottom: 1px solid rgba(201, 181, 138, 0.1);
+    white-space: nowrap;
+  }
+  table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(201, 181, 138, 0.05);
+    vertical-align: middle;
+    color: #e8e2d4;
+  }
+  table tr:hover td { background: rgba(201, 181, 138, 0.03); }
+  table tr:last-child td { border-bottom: 0; }
+
+  .td-img {
+    width: 48px; height: 60px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #2a3d33, #1a2620);
+    border: 1px solid rgba(201, 181, 138, 0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    color: #c9b58a; font-size: 22px; font-weight: 600;
+    overflow: hidden;
+  }
+  .td-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  .role-tag {
+    display: inline-block;
+    font-size: 9px; padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.12em; font-weight: 700;
+    text-transform: uppercase;
+  }
+  .role-tag.concierge { background: rgba(201, 181, 138, 0.15); color: #c9b58a; }
+  .role-tag.branch { background: rgba(255, 214, 107, 0.15); color: #ffd66b; }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 10px; padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.1em; font-weight: 700;
+  }
+  .status-new { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+  .status-review { background: rgba(245, 207, 111, 0.15); color: #f5cf6f; }
+  .status-done { background: rgba(80, 200, 120, 0.15); color: #50c878; }
+  .status-reject { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+  .row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+
+  /* ========== 슬러그 인라인 편집 + 인증 링크 ========== */
+  .slug-cell {
+    display: flex; flex-direction: column; gap: 4px;
+    min-width: 220px;
+  }
+  .slug-input {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(201, 181, 138, 0.2);
+    border-radius: 5px;
+    padding: 5px 8px;
+    color: #fff;
+    font-family: 'Inter', monospace;
+    font-size: 11px;
+    width: 100%;
+    transition: border-color 0.15s;
+  }
+  .slug-input:focus {
+    outline: none; border-color: #c9b58a;
+    background: rgba(0,0,0,0.5);
+  }
+  .slug-input.saved {
+    border-color: #50c878;
+    background: rgba(80, 200, 120, 0.08);
+  }
+  .slug-input.saving {
+    border-color: #f5cf6f;
+    background: rgba(245, 207, 111, 0.05);
+  }
+  .slug-url-row {
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'Inter', monospace;
+    font-size: 10px;
+  }
+  .slug-url-row .url {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    color: rgba(201, 181, 138, 0.7); flex: 1;
+  }
+  .slug-url-row button {
+    background: rgba(201, 181, 138, 0.1);
+    border: 1px solid rgba(201, 181, 138, 0.25);
+    color: #c9b58a;
+    padding: 3px 8px; border-radius: 4px;
+    font-family: inherit; font-size: 10px; font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .slug-url-row button:hover { background: rgba(201, 181, 138, 0.2); }
+  .slug-url-row button.copied { color: #50c878; }
+
+  /* 신규 등록 직후 발급 알림 */
+  .share-issued-banner {
+    margin: 16px 32px 0;
+    padding: 18px 22px;
+    background: linear-gradient(135deg, rgba(201, 181, 138, 0.12), rgba(201, 181, 138, 0.04));
+    border: 1px solid rgba(201, 181, 138, 0.35);
+    border-radius: 10px;
+    display: flex; align-items: center; gap: 16px;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .share-issued-banner .icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #c9b58a, #a89366);
+    color: #0a1814; font-size: 20px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .share-issued-banner .text { flex: 1; }
+  .share-issued-banner .title {
+    font-size: 13px; font-weight: 700; color: #fff;
+    letter-spacing: 0.05em; margin-bottom: 4px;
+  }
+  .share-issued-banner .url {
+    font-family: 'Inter', monospace;
+    font-size: 11px; color: #c9b58a;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .share-issued-banner button {
+    flex-shrink: 0;
+    padding: 10px 18px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(201, 181, 138, 0.4);
+    color: #c9b58a;
+    border-radius: 6px;
+    font-family: inherit; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+  }
+  .share-issued-banner button:hover { background: rgba(201, 181, 138, 0.15); }
+  .share-issued-banner button.copied { color: #50c878; border-color: #50c878; }
+
+  /* ========== MODAL FORM ========== */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none; align-items: flex-start; justify-content: center;
+    z-index: 100; padding: 40px 20px;
+    backdrop-filter: blur(8px);
+    overflow-y: auto;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: linear-gradient(180deg, #15251e 0%, #0a1814 100%);
+    border-radius: 16px;
+    max-width: 720px; width: 100%;
+    border: 1px solid rgba(201, 181, 138, 0.25);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    margin: auto;
+  }
+  .modal-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid rgba(201, 181, 138, 0.15);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-title {
+    font-size: 18px; font-weight: 700; color: #fff;
+  }
+  .modal-close {
+    background: rgba(255,255,255,0.05);
+    border: 0; border-radius: 50%;
+    width: 32px; height: 32px;
+    color: #fff; font-size: 14px; cursor: pointer;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.1); }
+  .modal-body {
+    padding: 24px 32px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .form-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .form-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-field.full { grid-column: 1 / -1; }
+  .form-label {
+    font-size: 10px; color: rgba(201, 181, 138, 0.7);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 700;
+  }
+  .form-label .req { color: #ef4444; margin-left: 4px; }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 11px 13px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(201, 181, 138, 0.18);
+    border-radius: 6px;
+    font-family: inherit; font-size: 13px;
+    color: #fff;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none; border-color: #c9b58a;
+  }
+  .form-textarea { resize: vertical; min-height: 80px; }
+  .form-select {
+    appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%23c9b58a' d='M6 9L1 4h10z'/></svg>");
+    background-repeat: no-repeat; background-position: right 12px center;
+    padding-right: 32px;
+  }
+  .form-select option { background: #0a1814; }
+
+  .form-checks { display: flex; gap: 6px; flex-wrap: wrap; }
+  .form-check {
+    cursor: pointer;
+    padding: 6px 12px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(201, 181, 138, 0.18);
+    border-radius: 999px;
+    font-size: 11px; font-weight: 600;
+    color: rgba(232, 226, 212, 0.7);
+    user-select: none;
+    transition: all 0.15s;
+  }
+  .form-check input { display: none; }
+  .form-check.selected {
+    background: rgba(201, 181, 138, 0.15);
+    border-color: #c9b58a;
+    color: #c9b58a;
+  }
+
+  .img-upload {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .img-preview {
+    width: 80px; height: 100px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2a3d33, #1a2620);
+    border: 1px solid rgba(201, 181, 138, 0.2);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(201, 181, 138, 0.5);
+    font-size: 24px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .img-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .img-actions { display: flex; flex-direction: column; gap: 6px; }
+  .img-actions .file-btn {
+    padding: 8px 14px;
+    background: rgba(201, 181, 138, 0.1);
+    border: 1px solid rgba(201, 181, 138, 0.3);
+    border-radius: 6px;
+    color: #c9b58a; font-family: inherit; font-size: 11px; font-weight: 700;
+    cursor: pointer;
+  }
+  .img-hint { font-size: 10px; color: rgba(232, 226, 212, 0.4); }
+
+  .modal-footer {
+    padding: 20px 32px;
+    border-top: 1px solid rgba(201, 181, 138, 0.1);
+    display: flex; justify-content: space-between; gap: 12px;
+    align-items: center;
+  }
+  .modal-footer-info { font-size: 11px; color: rgba(232, 226, 212, 0.5); }
+  .modal-footer-actions { display: flex; gap: 10px; }
+
+  /* ========== DETAIL VIEW (read-only) ========== */
+  .detail-section { padding: 14px 0; border-bottom: 1px solid rgba(201, 181, 138, 0.08); }
+  .detail-section:last-child { border-bottom: 0; }
+  .detail-label {
+    font-size: 10px; color: rgba(201, 181, 138, 0.6);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 6px;
+  }
+  .detail-value { font-size: 14px; color: #e8e2d4; line-height: 1.6; white-space: pre-wrap; }
+
+  /* ========== EMPTY ========== */
+  .empty-state {
+    padding: 60px;
+    text-align: center;
+    color: rgba(232, 226, 212, 0.4);
+  }
+  .empty-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.5; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-bg" id="loginBg">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="images/logo.png" alt="VIA ELITE">
+    </div>
+    <div class="login-title">CONCIERGE ADMIN</div>
+    <form class="login-form" onsubmit="doLogin(event)">
+      <input type="text" id="loginId" placeholder="관리자 ID" required autocomplete="off">
+      <input type="password" id="loginPw" placeholder="비밀번호" required autocomplete="off">
+      <button type="submit">로그인</button>
+    </form>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout" id="layout" style="display:none;">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="images/logo.png" alt="VIA ELITE">
+    </div>
+
+    <div class="sidebar-section-label">관리</div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" data-section="concierges">
+        <span>컨시어지</span>
+        <span class="nav-count" id="cnConcierges">8</span>
+      </div>
+      <div class="nav-item" data-section="stores">
+        <span>오프라인 매장</span>
+        <span class="nav-count" id="cnStores">4</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-section-label">수신함</div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" data-section="applications">
+        <span>컨시어지 신청</span>
+        <span class="nav-count" id="cnApplications">3</span>
+      </div>
+      <div class="nav-item" data-section="inquiries">
+        <span>문의·건의</span>
+        <span class="nav-count" id="cnInquiries">5</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="user">
+        <span class="user-dot"></span>
+        <span id="loggedUser">admin</span>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">로그아웃</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main"></main>
+</div>
+
+<!-- CONCIERGE MODAL -->
+<div class="modal-bg" id="conciergeModalBg">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="conciergeModalTitle">컨시어지 등록</div>
+      <button class="modal-close" onclick="closeConciergeModal()">✕</button>
+    </div>
+    <form id="conciergeForm" class="modal-body" onsubmit="submitConcierge(event)">
+      <input type="hidden" name="id">
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">등재번호 <span class="req">*</span></label>
+          <input class="form-input" type="text" name="cert" placeholder="0042" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label">직책 <span class="req">*</span></label>
+          <select class="form-select" name="role" required>
+            <option value="CONCIERGE">CONCIERGE (컨시어지)</option>
+            <option value="CHIEF CONCIERGE">CHIEF CONCIERGE</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">성함 <span class="req">*</span></label>
+          <input class="form-input" type="text" name="name" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label">등록일 <span class="req">*</span></label>
+          <input class="form-input" type="date" name="joined" required>
+        </div>
+      </div>
+
+      <div class="form-field full">
+        <label class="form-label">프로필 이미지</label>
+        <div class="img-upload">
+          <div class="img-preview" id="conciergeImgPreview">📸</div>
+          <div class="img-actions">
+            <label class="file-btn">
+              파일 선택
+              <input type="file" name="imgFile" accept="image/*" hidden onchange="previewImg(event, 'conciergeImgPreview')">
+            </label>
+            <span class="img-hint">권장 3:4 비율 / 자동 Google Drive 업로드</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">필터용 지역 <span class="req">*</span></label>
+          <select class="form-select" name="region" required>
+            <option value="">선택</option>
+            <option>서울</option><option>인천</option><option>경기</option>
+            <option>부산</option><option>대구</option><option>대전</option>
+            <option>광주</option><option>울산</option><option>제주</option>
+            <option>기타</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label">노출용 지역 <span class="req">*</span></label>
+          <input class="form-input" type="text" name="regionDetail" placeholder="서울 강남구·서초구" required>
+        </div>
+      </div>
+
+      <div class="form-field full">
+        <label class="form-label">담당 카테고리 (복수 선택)</label>
+        <div class="form-checks" id="conciergeCats">
+          <label class="form-check"><input type="checkbox" value="가방">가방</label>
+          <label class="form-check"><input type="checkbox" value="구두">구두</label>
+          <label class="form-check"><input type="checkbox" value="신발">신발</label>
+          <label class="form-check"><input type="checkbox" value="상의">상의</label>
+          <label class="form-check"><input type="checkbox" value="하의">하의</label>
+          <label class="form-check"><input type="checkbox" value="원피스">원피스</label>
+          <label class="form-check"><input type="checkbox" value="악세사리">악세사리</label>
+          <label class="form-check"><input type="checkbox" value="주얼리">주얼리</label>
+          <label class="form-check"><input type="checkbox" value="남성 의류">남성 의류</label>
+        </div>
+      </div>
+
+      <div class="form-field full">
+        <label class="form-label">자기소개 <span class="req">*</span></label>
+        <textarea class="form-textarea" name="intro" required placeholder="컨시어지 소개 — 경력·전문 분야·세일즈 철학"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">핸드폰 <span class="req">*</span></label>
+          <input class="form-input" type="tel" name="phone" placeholder="010-0000-0000" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label">이메일 <span class="req">*</span></label>
+          <input class="form-input" type="email" name="email" placeholder="example@viaelite.kr" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">카카오톡 아이디</label>
+          <input class="form-input" type="text" name="kakao" placeholder="@viaelite_xx">
+        </div>
+        <div class="form-field">
+          <label class="form-label">공식 채널 (링크)</label>
+          <input class="form-input" type="url" name="officialChannel" placeholder="https://pf.kakao.com/...">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">멀티링크 주소</label>
+          <input class="form-input" type="url" name="link" placeholder="https://litt.ly/xxxx">
+        </div>
+        <div class="form-field">
+          <label class="form-label">URL 슬러그 (영문/숫자)</label>
+          <input class="form-input" type="text" name="slug" placeholder="jjw, hong, kim001" pattern="[a-zA-Z0-9_-]+">
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <div class="modal-footer-info">* 필수 항목</div>
+      <div class="modal-footer-actions">
+        <button class="btn btn-ghost btn-sm" onclick="closeConciergeModal()">취소</button>
+        <button class="btn btn-primary btn-sm" type="submit" form="conciergeForm">저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STORE MODAL -->
+<div class="modal-bg" id="storeModalBg">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="storeModalTitle">매장 등록</div>
+      <button class="modal-close" onclick="closeStoreModal()">✕</button>
+    </div>
+    <form id="storeForm" class="modal-body" onsubmit="submitStore(event)">
+      <input type="hidden" name="id">
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">매장명 <span class="req">*</span></label>
+          <input class="form-input" type="text" name="name" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label">필터용 지역 <span class="req">*</span></label>
+          <select class="form-select" name="region" required>
+            <option value="">선택</option>
+            <option>서울</option><option>인천</option><option>경기</option>
+            <option>부산</option><option>대구</option><option>대전</option>
+            <option>광주</option><option>울산</option><option>제주</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field full">
+        <label class="form-label">매장 이미지</label>
+        <div class="img-upload">
+          <div class="img-preview" id="storeImgPreview">📸</div>
+          <div class="img-actions">
+            <label class="file-btn">
+              파일 선택
+              <input type="file" name="imgFile" accept="image/*" hidden onchange="previewImg(event, 'storeImgPreview')">
+            </label>
+            <span class="img-hint">권장 4:3 비율 / 자동 Google Drive 업로드</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">간단 주소 <span class="req">*</span></label>
+          <input class="form-input" type="text" name="regionDetail" placeholder="서울 강남구 청담동" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label">운영시간 <span class="req">*</span></label>
+          <input class="form-input" type="text" name="hours" placeholder="11:00 — 21:00" required>
+        </div>
+      </div>
+
+      <div class="form-field full">
+        <label class="form-label">상세 주소 <span class="req">*</span></label>
+        <input class="form-input" type="text" name="addressFull" placeholder="서울 강남구 청담동 123-45 비아엘리떼 빌딩 1-3F" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">연락처 <span class="req">*</span></label>
+          <input class="form-input" type="tel" name="phone" placeholder="02-1234-5678" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label">공식 채널 (링크)</label>
+          <input class="form-input" type="url" name="officialChannel" placeholder="https://pf.kakao.com/...">
+        </div>
+      </div>
+
+      <div class="form-field full">
+        <label class="form-label">주요 브랜드 (쉼표로 구분)</label>
+        <input class="form-input" type="text" name="brands" placeholder="GUCCI, PRADA, SAINT LAURENT">
+      </div>
+
+      <div class="form-field full">
+        <label class="form-label">주요 카테고리 (복수 선택)</label>
+        <div class="form-checks" id="storeCats">
+          <label class="form-check"><input type="checkbox" value="가방">가방</label>
+          <label class="form-check"><input type="checkbox" value="여성 의류">여성 의류</label>
+          <label class="form-check"><input type="checkbox" value="남성 의류">남성 의류</label>
+          <label class="form-check"><input type="checkbox" value="신발">신발</label>
+          <label class="form-check"><input type="checkbox" value="악세사리">악세사리</label>
+          <label class="form-check"><input type="checkbox" value="주얼리">주얼리</label>
+        </div>
+      </div>
+
+      <div class="form-field full">
+        <label class="form-label">매장 소개 <span class="req">*</span></label>
+        <textarea class="form-textarea" name="intro" required placeholder="매장 특징·VIP 시설·운영 방식 등"></textarea>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <div class="modal-footer-info">* 필수 항목</div>
+      <div class="modal-footer-actions">
+        <button class="btn btn-ghost btn-sm" onclick="closeStoreModal()">취소</button>
+        <button class="btn btn-primary btn-sm" type="submit" form="storeForm">저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL VIEW MODAL (신청·문의 읽기 전용) -->
+<div class="modal-bg" id="detailModalBg">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="detailModalTitle">상세 정보</div>
+      <button class="modal-close" onclick="closeDetailModal()">✕</button>
+    </div>
+    <div class="modal-body" id="detailModalBody"></div>
+    <div class="modal-footer">
+      <div class="modal-footer-info" id="detailModalInfo"></div>
+      <div class="modal-footer-actions">
+        <button class="btn btn-ghost btn-sm" onclick="closeDetailModal()">닫기</button>
+        <button class="btn btn-primary btn-sm" id="detailModalAction" onclick="markDetail()">처리 완료</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== CONFIG =====
+const API_URL = 'https://script.google.com/macros/s/AKfycbwaB_pIwjQoOm1OWz0WI4WmXMSePvpnjTu4XemYCU6mfeIyoJcbJ4mvlcNAVqh17o4klg/exec';
+
+let concierges = [];
+let stores = [];
+let applications = [];
+let inquiries = [];
+
+// ===== API HELPER =====
+async function apiPost(action, payload = {}) {
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action, ...payload })
+    });
+    return await res.json();
+  } catch (err) {
+    return { success: false, message: '서버 연결 오류: ' + err.message };
+  }
+}
+
+// 이미지 파일 → base64
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ===== LOAD ALL DATA =====
+async function loadAll() {
+  const [c, s, a, i] = await Promise.all([
+    apiPost('list_concierges_all'),
+    apiPost('list_stores_all'),
+    apiPost('list_applications'),
+    apiPost('list_inquiries')
+  ]);
+  console.log('[loadAll] concierges response:', c);
+  console.log('[loadAll] stores response:', s);
+  console.log('[loadAll] applications response:', a);
+  console.log('[loadAll] inquiries response:', i);
+  concierges = (c.items || []);
+  stores = (s.items || []);
+  applications = (a.items || []);
+  inquiries = (i.items || []);
+  updateCounts();
+}
+
+// ===== LOGIN =====
+async function doLogin(e) {
+  e.preventDefault();
+  const id = document.getElementById('loginId').value.trim();
+  const pw = document.getElementById('loginPw').value;
+  const errEl = document.getElementById('loginError');
+  errEl.textContent = '확인 중...';
+  const result = await apiPost('admin_login', { id, pw });
+  if (result.success) {
+    sessionStorage.setItem('admin', JSON.stringify({ id }));
+    errEl.textContent = '';
+    await showAdmin(id);
+  } else {
+    errEl.textContent = result.message || 'ID 또는 비밀번호가 일치하지 않습니다.';
+  }
+}
+async function showAdmin(id) {
+  document.getElementById('loginBg').style.display = 'none';
+  document.getElementById('layout').style.display = 'grid';
+  document.getElementById('loggedUser').textContent = id;
+  await loadAll();
+  renderSection('concierges');
+}
+function doLogout() {
+  sessionStorage.removeItem('admin');
+  document.getElementById('loginBg').style.display = 'flex';
+  document.getElementById('layout').style.display = 'none';
+}
+
+// 자동 로그인 체크
+(async function init() {
+  const saved = sessionStorage.getItem('admin');
+  if (saved) {
+    try { await showAdmin(JSON.parse(saved).id); } catch (e) {}
+  }
+})();
+
+// ===== NAVIGATION =====
+let currentSection = 'concierges';
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    item.classList.add('active');
+    currentSection = item.dataset.section;
+    renderSection(currentSection);
+  });
+});
+
+function updateCounts() {
+  document.getElementById('cnConcierges').textContent = concierges.length;
+  document.getElementById('cnStores').textContent = stores.length;
+  document.getElementById('cnApplications').textContent = applications.filter(a => a.status !== 'done' && a.status !== 'reject').length;
+  document.getElementById('cnInquiries').textContent = inquiries.filter(i => i.status === 'new').length;
+}
+
+// ===== RENDER SECTION =====
+function renderSection(section) {
+  const main = document.getElementById('main');
+  if (section === 'concierges') renderConcierges(main);
+  else if (section === 'stores') renderStores(main);
+  else if (section === 'applications') renderApplications(main);
+  else if (section === 'inquiries') renderInquiries(main);
+}
+
+// ===== CONCIERGES =====
+function renderConcierges(main) {
+  main.innerHTML = `
+    <div class="page-header">
+      <div class="page-title-area">
+        <div class="page-eyebrow">MANAGEMENT</div>
+        <div class="page-title">컨시어지 관리</div>
+        <div class="page-sub">등재된 공식 컨시어지 관리 — 추가·수정·삭제</div>
+      </div>
+      <button class="btn btn-primary" onclick="openConciergeModal()">＋ 신규 등록</button>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <input class="table-search" id="conciergeSearch" placeholder="이름·등재번호·지역 검색" oninput="renderConciergeRows()">
+        <select class="table-filter-select" id="conciergeRoleFilter" onchange="renderConciergeRows()">
+          <option value="">전체 직책</option>
+          <option value="CHIEF CONCIERGE">CHIEF CONCIERGE</option>
+          <option value="CONCIERGE">CONCIERGE</option>
+        </select>
+        <select class="table-filter-select" id="conciergeRegionFilter" onchange="renderConciergeRows()">
+          <option value="">전체 지역</option>
+          <option>서울</option><option>인천</option><option>경기</option>
+          <option>부산</option><option>대구</option><option>대전</option>
+          <option>광주</option><option>울산</option><option>제주</option>
+        </select>
+      </div>
+      <div class="table-overflow">
+        <table>
+          <thead>
+            <tr>
+              <th>사진</th><th>등재번호</th><th>직책</th><th>성함</th>
+              <th>지역</th><th>카테고리</th><th>공식 인증 링크</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="conciergeRows"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="issuedBannerSlot"></div>
+  `;
+  renderConciergeRows();
+}
+
+// 공개 페이지 URL 베이스
+// viaelite.kr 메인 사이트의 /concierge/* path로 접근하는 경우 이걸로
+const PUBLIC_PAGE_BASE = 'https://viaelite.kr/concierge';
+
+function getShareUrl(c) {
+  // 우선순위: slug > 등재번호 > id
+  const key = c.slug || c.cert || c.id;
+  return PUBLIC_PAGE_BASE + '/' + encodeURIComponent(key);
+}
+
+async function copyText(text, btn) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  if (btn) {
+    const prev = btn.textContent;
+    btn.textContent = '복사됨 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = prev; btn.classList.remove('copied'); }, 1500);
+  }
+}
+function copyShareLink(key, btnEl) {
+  const c = concierges.find(x =>
+    String(x.slug) === String(key) ||
+    String(x.cert) === String(key) ||
+    String(x.id) === String(key)
+  );
+  if (!c) return;
+  copyText(getShareUrl(c), btnEl);
+}
+
+function renderConciergeRows() {
+  const search = (document.getElementById('conciergeSearch')?.value || '').toLowerCase();
+  const roleF = document.getElementById('conciergeRoleFilter')?.value || '';
+  const regF = document.getElementById('conciergeRegionFilter')?.value || '';
+  const filtered = concierges.filter(c => {
+    const matchSearch = !search || c.name.toLowerCase().includes(search) || c.cert.toLowerCase().includes(search) || c.regionDetail.toLowerCase().includes(search);
+    const matchRole = !roleF || c.role === roleF;
+    const matchReg = !regF || c.region === regF;
+    return matchSearch && matchRole && matchReg;
+  });
+
+  const tbody = document.getElementById('conciergeRows');
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🔍</div>일치하는 컨시어지가 없습니다.</div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(c => {
+    const shareUrl = getShareUrl(c);
+    return `
+    <tr>
+      <td><div class="td-img">${c.img ? `<img src="${c.img}">` : (c.name || '').charAt(0)}</div></td>
+      <td><strong>${c.cert}</strong></td>
+      <td><span class="role-tag ${c.role === 'CHIEF CONCIERGE' ? 'branch' : 'concierge'}">${c.role}</span></td>
+      <td><strong style="color:#fff;">${c.name}</strong></td>
+      <td>${c.regionDetail}</td>
+      <td style="font-size:11px;color:rgba(232,226,212,0.6);">${(c.tags || []).join(', ')}</td>
+      <td>
+        <div class="slug-cell">
+          <input class="slug-input" type="text" value="${c.slug || ''}"
+                 placeholder="슬러그 입력 (영문/숫자) — 예: jjw"
+                 pattern="[a-zA-Z0-9_-]+"
+                 data-cid="${c.id}"
+                 onfocus="this.classList.remove('saved');"
+                 onblur="saveSlugInline(this)">
+          <div class="slug-url-row">
+            <span class="url" data-url-for="${c.id}">${shareUrl}</span>
+            <button onclick="copyShareLink('${c.slug || c.cert || c.id}', this)">복사</button>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="row-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openConciergeModal('${c.id}')">수정</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteConcierge('${c.id}')">삭제</button>
+        </div>
+      </td>
+    </tr>
+  `;}).join('');
+}
+
+// 슬러그 인라인 저장
+async function saveSlugInline(inputEl) {
+  const cid = inputEl.dataset.cid;
+  const newSlug = inputEl.value.trim();
+  const c = concierges.find(x => String(x.id) === String(cid));
+  if (!c) return;
+  if ((c.slug || '') === newSlug) return; // 변경 없음
+
+  // 슬러그 형식 검증
+  if (newSlug && !/^[a-zA-Z0-9_-]+$/.test(newSlug)) {
+    alert('슬러그는 영문·숫자·하이픈·언더바만 가능합니다.');
+    inputEl.value = c.slug || '';
+    return;
+  }
+  // 중복 체크
+  const dup = concierges.find(x => String(x.id) !== String(cid) && (x.slug || '') === newSlug && newSlug !== '');
+  if (dup) {
+    alert(`"${newSlug}" 슬러그는 이미 ${dup.name} 컨시어지가 사용 중입니다.`);
+    inputEl.value = c.slug || '';
+    return;
+  }
+
+  inputEl.classList.add('saving');
+  const tags = Array.isArray(c.tags) ? c.tags.join(', ') : (c.tags || '');
+  const result = await apiPost('save_concierge', {
+    ...c, tags, slug: newSlug, imgBase64: '', img: c.img || ''
+  });
+  inputEl.classList.remove('saving');
+
+  if (result.success) {
+    c.slug = newSlug;
+    // URL 표시 즉시 업데이트
+    const urlEl = document.querySelector(`[data-url-for="${cid}"]`);
+    if (urlEl) urlEl.textContent = getShareUrl(c);
+    inputEl.classList.add('saved');
+    setTimeout(() => inputEl.classList.remove('saved'), 1500);
+  } else {
+    alert('슬러그 저장 실패: ' + (result.message || ''));
+    inputEl.value = c.slug || '';
+  }
+}
+
+function openConciergeModal(id) {
+  const isEdit = !!id;
+  document.getElementById('conciergeModalTitle').textContent = isEdit ? '컨시어지 수정' : '컨시어지 신규 등록';
+  const form = document.getElementById('conciergeForm');
+  form.reset();
+  document.querySelectorAll('#conciergeCats .form-check').forEach(c => c.classList.remove('selected'));
+  document.getElementById('conciergeImgPreview').innerHTML = '📸';
+
+  if (isEdit) {
+    const c = concierges.find(x => String(x.id) === String(id));
+    if (c) {
+      form.id.value = c.id;
+      form.cert.value = c.cert;
+      form.role.value = c.role;
+      form.name.value = c.name;
+      form.joined.value = c.joined;
+      form.region.value = c.region;
+      form.regionDetail.value = c.regionDetail;
+      form.intro.value = c.intro;
+      form.phone.value = c.phone;
+      form.email.value = c.email;
+      form.kakao.value = c.kakao || '';
+      form.officialChannel.value = c.officialChannel || '';
+      form.link.value = c.link || '';
+      if (form.slug) form.slug.value = c.slug || '';
+      // 카테고리 체크
+      c.tags.forEach(t => {
+        const cb = form.querySelector(`#conciergeCats input[value="${t}"]`);
+        if (cb) { cb.checked = true; cb.closest('.form-check').classList.add('selected'); }
+      });
+      if (c.img) document.getElementById('conciergeImgPreview').innerHTML = `<img src="${c.img}">`;
+    }
+  }
+  document.getElementById('conciergeModalBg').classList.add('open');
+}
+
+function closeConciergeModal() {
+  document.getElementById('conciergeModalBg').classList.remove('open');
+}
+
+document.getElementById('conciergeCats').addEventListener('click', e => {
+  const label = e.target.closest('.form-check');
+  if (!label) return;
+  setTimeout(() => {
+    const cb = label.querySelector('input');
+    label.classList.toggle('selected', cb.checked);
+  }, 0);
+});
+
+async function submitConcierge(e) {
+  e.preventDefault();
+  const form = document.getElementById('conciergeForm');
+  const data = Object.fromEntries(new FormData(form));
+  const cats = [...form.querySelectorAll('#conciergeCats input:checked')].map(c => c.value);
+  const isEdit = !!data.id;
+
+  // 이미지 base64 변환 (새 파일 선택 시)
+  let imgBase64 = '';
+  if (data.imgFile && data.imgFile instanceof File && data.imgFile.size > 0) {
+    imgBase64 = await fileToBase64(data.imgFile);
+  }
+  delete data.imgFile;
+
+  // 기존 img 유지 (수정인데 새 파일 선택 안 함)
+  const existing = isEdit ? concierges.find(c => c.id === data.id) : null;
+  const existingImg = existing ? existing.img : '';
+
+  const payload = { ...data, tags: cats, imgBase64, img: existingImg };
+
+  const btn = e.submitter || form.querySelector('button[type="submit"]');
+  if (btn) btn.disabled = true;
+
+  const result = await apiPost('save_concierge', payload);
+
+  if (result.success) {
+    await loadAll();
+    closeConciergeModal();
+    renderConciergeRows();
+    // 신규 등록인 경우 발급 배너 띄움
+    if (!isEdit) {
+      const newCert = data.cert;
+      const newC = concierges.find(c => String(c.cert) === String(newCert)) || { cert: newCert };
+      showIssuedBanner(newC);
+    } else {
+      alert('컨시어지 정보가 수정되었습니다.');
+    }
+  } else {
+    alert('저장 실패: ' + (result.message || '알 수 없는 오류'));
+  }
+  if (btn) btn.disabled = false;
+}
+
+function showIssuedBanner(c) {
+  const slot = document.getElementById('issuedBannerSlot');
+  if (!slot) return;
+  const url = getShareUrl(c);
+  slot.innerHTML = `
+    <div class="share-issued-banner">
+      <div class="icon">✓</div>
+      <div class="text">
+        <div class="title">공식 인증 링크가 발급되었습니다 — ${c.name || ''} (등재번호 ${c.cert || '—'})</div>
+        <div class="url">${url}</div>
+      </div>
+      <button onclick="copyText('${url}', this)">복사</button>
+      <button onclick="this.closest('.share-issued-banner').remove()" style="background:transparent;border:0;color:rgba(232,226,212,0.5);font-size:18px;padding:6px 10px;cursor:pointer;">✕</button>
+    </div>
+  `;
+  setTimeout(() => {
+    const banner = slot.querySelector('.share-issued-banner');
+    if (banner) banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 50);
+}
+
+async function deleteConcierge(id) {
+  const c = concierges.find(x => x.id === id);
+  if (!c) return;
+  if (!confirm(`${c.name} 컨시어지를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) return;
+  const result = await apiPost('delete_concierge', { id });
+  if (result.success) {
+    await loadAll();
+    renderConciergeRows();
+  } else {
+    alert('삭제 실패: ' + (result.message || ''));
+  }
+}
+
+// ===== STORES =====
+function renderStores(main) {
+  main.innerHTML = `
+    <div class="page-header">
+      <div class="page-title-area">
+        <div class="page-eyebrow">MANAGEMENT</div>
+        <div class="page-title">오프라인 매장 관리</div>
+        <div class="page-sub">공식 매장 정보 관리 — 추가·수정·삭제</div>
+      </div>
+      <button class="btn btn-primary" onclick="openStoreModal()">＋ 신규 등록</button>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <input class="table-search" id="storeSearch" placeholder="매장명·지역 검색" oninput="renderStoreRows()">
+        <select class="table-filter-select" id="storeRegionFilter" onchange="renderStoreRows()">
+          <option value="">전체 지역</option>
+          <option>서울</option><option>인천</option><option>경기</option>
+          <option>부산</option><option>대구</option>
+        </select>
+      </div>
+      <div class="table-overflow">
+        <table>
+          <thead>
+            <tr>
+              <th>사진</th><th>매장명</th><th>지역</th><th>운영시간</th>
+              <th>연락처</th><th>브랜드</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="storeRows"></tbody>
+        </table>
+      </div>
+    </div>
+  `;
+  renderStoreRows();
+}
+
+function renderStoreRows() {
+  const search = (document.getElementById('storeSearch')?.value || '').toLowerCase();
+  const regF = document.getElementById('storeRegionFilter')?.value || '';
+  const filtered = stores.filter(s => {
+    const matchSearch = !search || s.name.toLowerCase().includes(search) || s.regionDetail.toLowerCase().includes(search);
+    const matchReg = !regF || s.region === regF;
+    return matchSearch && matchReg;
+  });
+
+  const tbody = document.getElementById('storeRows');
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🏬</div>등록된 매장이 없습니다.</div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(s => `
+    <tr>
+      <td><div class="td-img" style="width:60px;height:48px;border-radius:6px;">${s.img ? `<img src="${s.img}">` : 'V'}</div></td>
+      <td><strong style="color:#fff;">${s.name}</strong></td>
+      <td>${s.regionDetail}</td>
+      <td>${s.hours}</td>
+      <td>${s.phone}</td>
+      <td style="max-width:200px;font-size:11px;color:rgba(232,226,212,0.6);">${typeof s.brands === 'string' ? s.brands : (s.brands || []).join(', ')}</td>
+      <td>
+        <div class="row-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openStoreModal('${s.id}')">수정</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteStore('${s.id}')">삭제</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openStoreModal(id) {
+  const isEdit = !!id;
+  document.getElementById('storeModalTitle').textContent = isEdit ? '매장 수정' : '매장 신규 등록';
+  const form = document.getElementById('storeForm');
+  form.reset();
+  document.querySelectorAll('#storeCats .form-check').forEach(c => c.classList.remove('selected'));
+  document.getElementById('storeImgPreview').innerHTML = '📸';
+
+  if (isEdit) {
+    const s = stores.find(x => x.id === id);
+    if (s) {
+      form.id.value = s.id;
+      form.name.value = s.name;
+      form.region.value = s.region;
+      form.regionDetail.value = s.regionDetail;
+      form.addressFull.value = s.addressFull;
+      form.hours.value = s.hours;
+      form.phone.value = s.phone;
+      form.officialChannel.value = s.officialChannel || '';
+      form.brands.value = typeof s.brands === 'string' ? s.brands : (s.brands || []).join(', ');
+      form.intro.value = s.intro;
+      (s.categories || []).forEach(cat => {
+        const cb = form.querySelector(`#storeCats input[value="${cat}"]`);
+        if (cb) { cb.checked = true; cb.closest('.form-check').classList.add('selected'); }
+      });
+      if (s.img) document.getElementById('storeImgPreview').innerHTML = `<img src="${s.img}">`;
+    }
+  }
+  document.getElementById('storeModalBg').classList.add('open');
+}
+
+function closeStoreModal() {
+  document.getElementById('storeModalBg').classList.remove('open');
+}
+
+document.getElementById('storeCats').addEventListener('click', e => {
+  const label = e.target.closest('.form-check');
+  if (!label) return;
+  setTimeout(() => {
+    const cb = label.querySelector('input');
+    label.classList.toggle('selected', cb.checked);
+  }, 0);
+});
+
+async function submitStore(e) {
+  e.preventDefault();
+  const form = document.getElementById('storeForm');
+  const data = Object.fromEntries(new FormData(form));
+  const cats = [...form.querySelectorAll('#storeCats input:checked')].map(c => c.value);
+  const isEdit = !!data.id;
+
+  let imgBase64 = '';
+  if (data.imgFile && data.imgFile instanceof File && data.imgFile.size > 0) {
+    imgBase64 = await fileToBase64(data.imgFile);
+  }
+  delete data.imgFile;
+
+  const existing = isEdit ? stores.find(s => s.id === data.id) : null;
+  const existingImg = existing ? existing.img : '';
+
+  // brands는 쉼표 구분 문자열 → 배열로
+  const brands = (data.brands || '').split(',').map(s => s.trim()).filter(Boolean);
+  const payload = { ...data, categories: cats, brands, imgBase64, img: existingImg };
+
+  const btn = e.submitter || form.querySelector('button[type="submit"]');
+  if (btn) btn.disabled = true;
+
+  const result = await apiPost('save_store', payload);
+
+  if (result.success) {
+    alert(isEdit ? '매장 정보가 수정되었습니다.' : '신규 매장이 등록되었습니다.');
+    await loadAll();
+    closeStoreModal();
+    renderStoreRows();
+  } else {
+    alert('저장 실패: ' + (result.message || '알 수 없는 오류'));
+  }
+  if (btn) btn.disabled = false;
+}
+
+async function deleteStore(id) {
+  const s = stores.find(x => x.id === id);
+  if (!s) return;
+  if (!confirm(`${s.name}을(를) 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) return;
+  const result = await apiPost('delete_store', { id });
+  if (result.success) {
+    await loadAll();
+    renderStoreRows();
+  } else {
+    alert('삭제 실패: ' + (result.message || ''));
+  }
+}
+
+// ===== APPLICATIONS =====
+function renderApplications(main) {
+  main.innerHTML = `
+    <div class="page-header">
+      <div class="page-title-area">
+        <div class="page-eyebrow">INBOX</div>
+        <div class="page-title">컨시어지 신청</div>
+        <div class="page-sub">공식 페이지에서 접수된 신청 — 검토 후 면접 진행</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <input class="table-search" id="appSearch" placeholder="이름·연락처·지역 검색" oninput="renderAppRows()">
+        <select class="table-filter-select" id="appStatusFilter" onchange="renderAppRows()">
+          <option value="">전체 상태</option>
+          <option value="new">신규 접수</option>
+          <option value="review">검토 중</option>
+          <option value="done">통과</option>
+          <option value="reject">거절</option>
+        </select>
+      </div>
+      <div class="table-overflow">
+        <table>
+          <thead>
+            <tr>
+              <th>신청일</th><th>이름</th><th>연락처</th><th>이메일</th>
+              <th>지역</th><th>카테고리</th><th>상태</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="appRows"></tbody>
+        </table>
+      </div>
+    </div>
+  `;
+  renderAppRows();
+}
+
+const statusLabel = { new: '신규 접수', review: '검토 중', done: '통과', reject: '거절' };
+
+function renderAppRows() {
+  const search = (document.getElementById('appSearch')?.value || '').toLowerCase();
+  const stF = document.getElementById('appStatusFilter')?.value || '';
+  const filtered = applications.filter(a => {
+    const matchS = !search || a.name.toLowerCase().includes(search) || a.phone.includes(search) || a.region.includes(search);
+    const matchSt = !stF || a.status === stF;
+    return matchS && matchSt;
+  });
+
+  const tbody = document.getElementById('appRows');
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">📭</div>신청 내역이 없습니다.</div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(a => `
+    <tr>
+      <td>${a.date}</td>
+      <td><strong style="color:#fff;">${a.name}</strong></td>
+      <td>${a.phone}</td>
+      <td style="font-size:11px;">${a.email}</td>
+      <td>${a.region}</td>
+      <td style="font-size:11px;">${a.categories.join(', ')}</td>
+      <td><span class="status-tag status-${a.status}">${statusLabel[a.status]}</span></td>
+      <td>
+        <div class="row-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openApplicationDetail('${a.id}')">상세</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openApplicationDetail(id) {
+  const a = applications.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('detailModalTitle').textContent = `신청서 상세 — ${a.name}`;
+  document.getElementById('detailModalBody').innerHTML = `
+    <div class="detail-section"><div class="detail-label">신청일</div><div class="detail-value">${a.date}</div></div>
+    <div class="form-row">
+      <div class="detail-section"><div class="detail-label">이름</div><div class="detail-value">${a.name}</div></div>
+      <div class="detail-section"><div class="detail-label">상태</div><div class="detail-value"><span class="status-tag status-${a.status}">${statusLabel[a.status]}</span></div></div>
+    </div>
+    <div class="form-row">
+      <div class="detail-section"><div class="detail-label">연락처</div><div class="detail-value">${a.phone}</div></div>
+      <div class="detail-section"><div class="detail-label">이메일</div><div class="detail-value">${a.email}</div></div>
+    </div>
+    <div class="form-row">
+      <div class="detail-section"><div class="detail-label">거주 지역</div><div class="detail-value">${a.region}</div></div>
+      <div class="detail-section"><div class="detail-label">희망 활동 지역</div><div class="detail-value">${a.activeArea}</div></div>
+    </div>
+    <div class="detail-section"><div class="detail-label">관심 카테고리</div><div class="detail-value">${a.categories.join(', ')}</div></div>
+    <div class="detail-section"><div class="detail-label">현재 직업·경력</div><div class="detail-value">${a.job}</div></div>
+    <div class="detail-section"><div class="detail-label">지원 동기</div><div class="detail-value">${a.motivation}</div></div>
+  `;
+  document.getElementById('detailModalInfo').textContent = `신청 ID: ${a.id}`;
+  const actionBtn = document.getElementById('detailModalAction');
+  actionBtn.textContent = a.status === 'new' ? '검토 중으로 변경' : a.status === 'review' ? '통과 처리' : '거절 처리';
+  actionBtn.onclick = async () => {
+    const next = a.status === 'new' ? 'review' : a.status === 'review' ? 'done' : 'reject';
+    const result = await apiPost('update_application_status', { id: a.id, status: next });
+    if (result.success) {
+      a.status = next;
+      closeDetailModal();
+      await loadAll();
+      renderAppRows();
+    } else {
+      alert('상태 변경 실패: ' + (result.message || ''));
+    }
+  };
+  document.getElementById('detailModalBg').classList.add('open');
+}
+
+// ===== INQUIRIES =====
+function renderInquiries(main) {
+  main.innerHTML = `
+    <div class="page-header">
+      <div class="page-title-area">
+        <div class="page-eyebrow">INBOX</div>
+        <div class="page-title">문의·건의</div>
+        <div class="page-sub">고객 문의 및 개선 의견 — 처리 후 회신</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <input class="table-search" id="inqSearch" placeholder="이름·내용 검색" oninput="renderInqRows()">
+        <select class="table-filter-select" id="inqStatusFilter" onchange="renderInqRows()">
+          <option value="">전체 상태</option>
+          <option value="new">미응답</option>
+          <option value="done">처리 완료</option>
+        </select>
+      </div>
+      <div class="table-overflow">
+        <table>
+          <thead>
+            <tr>
+              <th>접수일</th><th>이름</th><th>연락처</th><th>유형</th>
+              <th>관련 컨시어지</th><th>내용 (미리보기)</th><th>상태</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="inqRows"></tbody>
+        </table>
+      </div>
+    </div>
+  `;
+  renderInqRows();
+}
+
+function renderInqRows() {
+  const search = (document.getElementById('inqSearch')?.value || '').toLowerCase();
+  const stF = document.getElementById('inqStatusFilter')?.value || '';
+  const filtered = inquiries.filter(i => {
+    const matchS = !search || i.name.toLowerCase().includes(search) || (i.content || '').toLowerCase().includes(search);
+    const matchSt = !stF || i.status === stF;
+    return matchS && matchSt;
+  });
+
+  const tbody = document.getElementById('inqRows');
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">📭</div>문의 내역이 없습니다.</div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(i => `
+    <tr>
+      <td>${i.date}</td>
+      <td><strong style="color:#fff;">${i.name}</strong></td>
+      <td>${i.contact}</td>
+      <td>${i.type}</td>
+      <td style="font-size:11px;">${i.relatedConcierge || '—'}</td>
+      <td style="font-size:11px;max-width:280px;color:rgba(232,226,212,0.6);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.content}</td>
+      <td><span class="status-tag status-${i.status === 'done' ? 'done' : 'new'}">${i.status === 'done' ? '처리 완료' : '미응답'}</span></td>
+      <td>
+        <div class="row-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openInquiryDetail('${i.id}')">상세</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openInquiryDetail(id) {
+  const i = inquiries.find(x => x.id === id);
+  if (!i) return;
+  document.getElementById('detailModalTitle').textContent = `문의 상세 — ${i.name}`;
+  document.getElementById('detailModalBody').innerHTML = `
+    <div class="form-row">
+      <div class="detail-section"><div class="detail-label">접수일</div><div class="detail-value">${i.date}</div></div>
+      <div class="detail-section"><div class="detail-label">상태</div><div class="detail-value"><span class="status-tag status-${i.status === 'done' ? 'done' : 'new'}">${i.status === 'done' ? '처리 완료' : '미응답'}</span></div></div>
+    </div>
+    <div class="form-row">
+      <div class="detail-section"><div class="detail-label">이름</div><div class="detail-value">${i.name}</div></div>
+      <div class="detail-section"><div class="detail-label">연락처</div><div class="detail-value">${i.contact}</div></div>
+    </div>
+    <div class="form-row">
+      <div class="detail-section"><div class="detail-label">문의 유형</div><div class="detail-value">${i.type}</div></div>
+      <div class="detail-section"><div class="detail-label">관련 컨시어지</div><div class="detail-value">${i.relatedConcierge || '—'}</div></div>
+    </div>
+    <div class="detail-section"><div class="detail-label">내용</div><div class="detail-value">${i.content}</div></div>
+  `;
+  document.getElementById('detailModalInfo').textContent = `문의 ID: ${i.id}`;
+  const actionBtn = document.getElementById('detailModalAction');
+  actionBtn.textContent = i.status === 'done' ? '미응답으로 변경' : '처리 완료';
+  actionBtn.onclick = async () => {
+    const next = i.status === 'done' ? 'new' : 'done';
+    const result = await apiPost('update_inquiry_status', { id: i.id, status: next });
+    if (result.success) {
+      i.status = next;
+      closeDetailModal();
+      await loadAll();
+      renderInqRows();
+    } else {
+      alert('상태 변경 실패: ' + (result.message || ''));
+    }
+  };
+  document.getElementById('detailModalBg').classList.add('open');
+}
+
+function closeDetailModal() {
+  document.getElementById('detailModalBg').classList.remove('open');
+}
+function markDetail() {} // dummy
+
+// ===== IMG PREVIEW =====
+function previewImg(e, previewId) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById(previewId).innerHTML = `<img src="${ev.target.result}">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ===== MODAL CLOSE ON BG =====
+document.getElementById('conciergeModalBg').addEventListener('click', e => { if (e.target.id === 'conciergeModalBg') closeConciergeModal(); });
+document.getElementById('storeModalBg').addEventListener('click', e => { if (e.target.id === 'storeModalBg') closeStoreModal(); });
+document.getElementById('detailModalBg').addEventListener('click', e => { if (e.target.id === 'detailModalBg') closeDetailModal(); });
+</script>
+
+</body>
+</html>
