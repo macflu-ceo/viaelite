@@ -759,6 +759,35 @@
     .form-row { grid-template-columns: 1fr; }
   }
 </style>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2386536035161499');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2386536035161499&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17738269011"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-17738269011');
+</script>
+<!-- End Google tag -->
+
 </head>
 <body>
 
@@ -1361,6 +1390,14 @@ async function submitApply(e) {
       form.reset();
       document.querySelectorAll('#categoryChecks .form-check').forEach(c => c.classList.remove('selected'));
       closeApplyModal();
+
+      // Meta Pixel — Lead 이벤트 (컨시어지 신청 폼 제출 완료)
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', {
+          content_name: '컨시어지_모집_신청',
+          content_category: 'Concierge Recruitment'
+        });
+      }
     } else {
       alert('접수 실패: ' + (result.message || '잠시 후 다시 시도해주세요.'));
     }
@@ -1398,6 +1435,13 @@ async function submitContact(e) {
       alert('소중한 의견 감사합니다.\n영업일 기준 3일 이내 회신드리겠습니다.');
       form.reset();
       closeContactModal();
+
+      // Meta Pixel — Contact 이벤트 (일반 문의 제출)
+      if (typeof fbq === 'function') {
+        fbq('track', 'Contact', {
+          content_name: '컨시어지_일반_문의'
+        });
+      }
     } else {
       alert('접수 실패: ' + (result.message || '잠시 후 다시 시도해주세요.'));
     }
