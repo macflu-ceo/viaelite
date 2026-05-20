@@ -1259,6 +1259,16 @@ function openModal(id) {
   }
   console.log('Opening modal for:', item.name);
 
+  // Meta Pixel — ViewContent (컨시어지 개별 상세 조회)
+  if (typeof fbq === 'function') {
+    fbq('track', 'ViewContent', {
+      content_name: item.name,
+      content_ids: [String(item.slug || item.cert || item.id)],
+      content_type: 'concierge',
+      content_category: 'Concierge Detail'
+    });
+  }
+
   // 사진
   const photoEl = document.getElementById('mPhoto');
   if (item.img) {
@@ -1353,6 +1363,14 @@ document.getElementById('modalBg').addEventListener('click', e => {
 function openApplyModal(e) {
   if (e) e.preventDefault();
   document.getElementById('applyModalBg').classList.add('open');
+
+  // Meta Pixel — InitiateCheckout (신청 모달 열림 = 펀널 진입)
+  if (typeof fbq === 'function') {
+    fbq('track', 'InitiateCheckout', {
+      content_name: '컨시어지_모집_신청_시작',
+      content_category: 'Concierge Recruitment'
+    });
+  }
 }
 function closeApplyModal() {
   document.getElementById('applyModalBg').classList.remove('open');
@@ -1396,6 +1414,14 @@ async function submitApply(e) {
         fbq('track', 'Lead', {
           content_name: '컨시어지_모집_신청',
           content_category: 'Concierge Recruitment'
+        });
+      }
+      // Google Ads — 전환 (리드 양식 제출)
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17738269011/PCptCKjazK8cENOCoopC',
+          'value': 1.0,
+          'currency': 'KRW'
         });
       }
     } else {

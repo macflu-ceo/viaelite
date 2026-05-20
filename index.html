@@ -2155,7 +2155,7 @@ src="https://www.facebook.com/tr?id=2386536035161499&ev=PageView&noscript=1"
     <div class="income-grid">
       <div class="income-card">
         <div class="income-tag">METHOD 01</div>
-        <h3 class="income-title">수수료 판매<br /><span style="font-size:16px; color: var(--text-muted);">국내·해외 재고 활용형</span></h3>
+        <h3 class="income-title">수수료 판매<br /><span style="font-size:16px; color: var(--text-muted);">무재고 판매</span></h3>
         <p class="income-summary-line">자본 부담 없이 즉시 시작 가능</p>
         <ul class="income-list">
           <li>국내에 이미 확보된 50억+ 규모의 재고를 판매</li>
@@ -2554,7 +2554,7 @@ src="https://www.facebook.com/tr?id=2386536035161499&ev=PageView&noscript=1"
           <label for="interest">관심 있는 활동 방식</label>
           <select id="interest" name="interest" required>
             <option value="">선택해주세요</option>
-            <option>수수료 판매 (국내 재고 활용)</option>
+            <option>수수료 판매 (무재고)</option>
             <option>직접 사입 마진 판매</option>
             <option>두 가지 모두 관심</option>
             <option>아직 잘 모르겠음 — 상담 후 결정</option>
@@ -2622,6 +2622,21 @@ src="https://www.facebook.com/tr?id=2386536035161499&ev=PageView&noscript=1"
     });
   });
 
+  // Meta Pixel — InitiateCheckout (신청 폼 처음 입력 시작 = 펀널 진입, 1회만 발화)
+  let _initiateCheckoutFired = false;
+  document.querySelectorAll('#applyForm input, #applyForm select, #applyForm textarea').forEach(el => {
+    el.addEventListener('focus', () => {
+      if (_initiateCheckoutFired) return;
+      _initiateCheckoutFired = true;
+      if (typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', {
+          content_name: '컨시어지_모집_신청_시작',
+          content_category: 'Concierge Recruitment'
+        });
+      }
+    }, { once: true });
+  });
+
   // Form submission — Google Apps Script 백엔드 연동
   // ⚠️ 아래 URL을 본인의 Apps Script 웹앱 URL로 교체하세요 (배포 후 발급받은 주소)
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_6CudsvNZUHfu2Gi8H7FNzwOxbAmxk_DZMxWaE96aGGjqecSJ2ifn9T4gV5S0K-EJ/exec';
@@ -2658,6 +2673,14 @@ src="https://www.facebook.com/tr?id=2386536035161499&ev=PageView&noscript=1"
         fbq('track', 'Lead', {
           content_name: '컨시어지_모집_신청',
           content_category: 'Concierge Recruitment'
+        });
+      }
+      // Google Ads — 전환 (리드 양식 제출)
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17738269011/PCptCKjazK8cENOCoopC',
+          'value': 1.0,
+          'currency': 'KRW'
         });
       }
     })
